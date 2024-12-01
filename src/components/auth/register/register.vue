@@ -1,108 +1,108 @@
 <template>
-    <div
-      class="h-screen w-screen flex items-center justify-center bg-cover bg-center"
-      style="background-image: url('https://via.placeholder.com/1920x1080');"
-    >
-      <div class="bg-white shadow-lg rounded-lg p-8 w-96">
-        <div class="text-center mb-4">
-          <button
-            @click="$router.push('/')"
-            class="text-gray-500 hover:text-gray-700 focus:outline-none"
-          >
-            ← Back to Login
-          </button>
-          <h2 class="text-2xl font-bold text-gray-700 mt-2">បង្កើតគណនី</h2>
-        </div>
-  
-        <form>
-          <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label for="firstName" class="block text-sm font-medium text-gray-700">
-                នាមខ្លួន
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                placeholder="នាមខ្លួន"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label for="lastName" class="block text-sm font-medium text-gray-700">
-                នាមត្រកូល
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                placeholder="នាមត្រកូល"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
-  
-          <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              អ៊ីមែល
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="អ៊ីមែល"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-  
-          <div class="mb-4">
-            <label for="phone" class="block text-sm font-medium text-gray-700">
-              លេខទូរស័ព្ទ
-            </label>
-            <input
-              type="text"
-              id="phone"
-              placeholder="លេខទូរស័ព្ទ"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-  
-          <div class="mb-4">
-            <label for="password" class="block text-sm font-medium text-gray-700">
-              លេខសម្ងាត់
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="លេខសម្ងាត់"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-  
-          <div class="mb-4">
-            <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
-              លេខសម្ងាត់បញ្ជាក់
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              placeholder="លេខសម្ងាត់បញ្ជាក់"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-  
-          <button
-            type="submit"
-            class="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700 transition"
-          >
-            ចុះឈ្មោះ
-          </button>
-        </form>
+  <div
+    class="h-screen w-screen flex items-center justify-center bg-cover bg-center"
+    style="background-image: url('/Signin.jpg');"
+  >
+    <div class="bg-white shadow-lg p-8 w-[450px] kantumruy-pro-regular">
+      <div class="text-left mb-4">
+        <span class="focus:outline-none cursor-pointer text-xl">
+          ← បង្កើតគណនី
+        </span>
       </div>
+
+      <form>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <input
+            type="text"
+            id="firstName"
+            placeholder="នាមខ្លួន"
+            class="w-full border border-gray-300 px-4 py-3 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+          <input
+            type="text"
+            id="lastName"
+            placeholder="នាមត្រកូល"
+            class="w-full border border-gray-300 px-4 py-3 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div class="mb-4 relative">
+          <input
+            type="email"
+            id="email"
+            placeholder="អ៊ីមែល"
+            class="w-full border border-gray-300 px-4 py-3 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+          <img 
+            src="/icon/Mail.svg" 
+            alt="Mail Icon" 
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+          />
+        </div>
+
+        <div class="mb-4 relative">
+          <input
+            type="text"
+            id="phone"
+            placeholder="លេខទូរស័ព្ទ"
+            class="w-full border border-gray-300 px-4 py-3 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+          <img 
+            src="/icon/mdi_cellphone.svg" 
+            alt="Phone Icon" 
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+          />
+        </div>
+
+        <div class="mb-4 relative">
+          <input
+            type="password"
+            id="password"
+            placeholder="លេខសម្ងាត់"
+            class="w-full border border-gray-300 px-4 py-3 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+          <img 
+            src="/icon/eye.svg" 
+            alt="Eye Icon" 
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+          />
+        </div>
+
+        <div class="mb-4 relative">
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="លេខសម្ងាត់បញ្ជាក់"
+            class="w-full border border-gray-300 px-4 py-3 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+          <img 
+            src="/icon/eye.svg" 
+            alt="Eye Icon" 
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white py-3 text-base hover:bg-blue-600 transition"
+        >
+          ចុះឈ្មោះ
+        </button>
+
+        <div class="flex items-center my-4">
+          <div class="flex-grow border-t border-gray-300"></div>
+          <span class="px-4 text-base text-gray-500 kantumruy-pro-regular">or</span>
+          <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <button
+          type="button"
+          class="w-full flex items-center justify-center border border-gray-300 py-3 text-base text-gray-700 hover:bg-gray-100 transition"
+          @click.prevent="$router.push('/')"
+        >
+          ចូល
+        </button>
+      </form>
     </div>
-  </template>
-  
-  <script setup>
-  </script>
-  
-  <style scoped>
-  /* Add any additional scoped styles if needed */
-  </style>
-  
+  </div>
+</template>

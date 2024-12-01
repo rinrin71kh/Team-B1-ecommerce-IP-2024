@@ -1,84 +1,95 @@
 <template>
     <div
       class="h-screen w-screen flex items-center justify-center bg-cover bg-center"
-      style="background-image: url('https://via.placeholder.com/1920x1080');"
+      style="background-image: url('/Signin.jpg');"
     >
-      <div class="bg-white shadow-lg rounded-lg p-8 w-96">
-        <div class="text-center">
+      <div class="bg-white shadow-lg  p-8 w-[400px]">
+        <div class=" flex  text-center items-center justify-center mb-4">
           <img
-            src="https://via.placeholder.com/150x50"
+            src="/images/logo.png"
             alt="GIC Logo"
-            class="mx-auto mb-4"
+            class="h-36 w-auto "
           />
         </div>
         <form>
           <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            
             <div class="relative mt-1">
               <input
                 type="email"
                 id="email"
                 placeholder="Email"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="w-full border border-gray-300  px-3 py-3 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
-              <span class="absolute inset-y-0 right-3 flex items-center text-gray-400">
-                📧
-              </span>
+              <img 
+                src="/icon/Mail.svg" 
+                alt="Mail Icon" 
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+              />
             </div>
           </div>
   
           <div class="mb-4">
-            <label for="password" class="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+           
             <div class="relative mt-1">
               <input
-                type="password"
-                id="password"
+                type="email"
+                id="email"
                 placeholder="Password"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="w-full border border-gray-300  px-3 py-3 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
-              <span class="absolute inset-y-0 right-3 flex items-center text-gray-400">
-                👁️
-              </span>
+              <img 
+                src="/icon/eye.svg" 
+                alt="Mail Icon" 
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+              />
             </div>
           </div>
   
           <button
             type="submit"
-            class="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700 transition"
+            class="w-full bg-blue-500 text-white  py-3  hover:bg-blue-600 transition"
           >
             Login
           </button>
   
-          <div class="my-4 text-center text-sm text-gray-500">or</div>
+          <div class="flex items-center my-4">
+            <div class="flex-grow border-t border-gray-300"></div>
+            <span class="px-3 text-sm text-gray-500 kantumruy-pro-regular">បង្កើតគណនី</span>
+            <div class="flex-grow border-t border-gray-300"></div>
+          </div>
+
   
           <button
             type="button"
-            class="w-full flex items-center justify-center border border-gray-300 rounded-md py-2 text-gray-700 hover:bg-gray-100 transition"
+            class="w-full flex items-center justify-center border border-gray-300  py-2 text-gray-700 hover:bg-gray-100 transition mb-5"
           >
-            <span class="mr-2">🌐</span> Sign in with Google
+            <img src="/icon/google.svg"> 
+            <span class="ml-[10px] kantumruy-pro-regular mr-[4px]">
+              ភ្ជាប់ជាមួយ 
+            </span>
+            <span class="font-bold">Google</span>
           </button>
   
           <button
             type="button"
-            class="w-full flex items-center justify-center border border-gray-300 rounded-md py-2 mt-3 text-gray-700 hover:bg-gray-100 transition"
+            class="w-full flex items-center justify-center border border-gray-300  py-2 text-gray-700 hover:bg-gray-100 transition mb-5"
           >
-            <span class="mr-2">📘</span> Sign in with Facebook
+            <img src="/icon/facebook.svg"> 
+            <span class="ml-[10px] kantumruy-pro-regular mr-[4px]">
+              ភ្ជាប់ជាមួយ 
+            </span>
+            <span class="font-bold">facebook</span>
           </button>
-  
-          <div class="mt-4 text-center">
-            <span class="text-gray-500">មិនមានគណនី?</span>
-            <a
-                href="#"
-                @click.prevent="$router.push('/register')"
-                class="text-blue-600 hover:underline"
-            >
-                ចុះឈ្មោះ
-            </a>
-            </div>
+          <button
+            type="button"
+            class="w-full flex items-center justify-center border border-gray-300 py-2 mt-3 text-gray-700 hover:bg-gray-100 transition"
+            @click.prevent="$router.push('/register')"
+          >
+            Register
+          </button>
+    
+        
         </form>
       </div>
     </div>
