@@ -1,4 +1,7 @@
+import bcrypt from "bcryptjs";
+
 async function getAccessToken(): Promise<string | undefined> {
+  //Suppose store in env but it doesn't matter
     const clientId = 'id-ff33fd67-2662-23d2-e387-7e660796b71';
     const clientSecret = 'secret-16433662-63e6-dea2-91b5-c0be0d0db7c';
     const tokenUrl = 'https://techbox.developimpact.net/o/oauth2/token';
@@ -29,10 +32,13 @@ async function getAccessToken(): Promise<string | undefined> {
       return undefined;
     }
   }
-  
-  export async function login() {
+  function encodeEmail(email: string): string {
+    return encodeURIComponent(email);
+  }
+  async function FetchUser(email:string, password:string) {
+    const encodedEmail = encodeEmail(email);    
     const url =
-      "https://techbox.developimpact.net/o/c/users/?fields=email%2Cpassword&filter=email%20eq%20%27makara%40gmail.com%27";
+      `https://techbox.developimpact.net/o/c/users/?fields=email%2Cpassword&filter=email%20eq%20%27${encodedEmail}%27`;
   
     const accessToken = await getAccessToken();
   
@@ -55,15 +61,21 @@ async function getAccessToken(): Promise<string | undefined> {
         console.error('Failed to fetch user data:', errorDetails);
         return [];
       }
-  
-      const data = await response.json();
-      console.log('Fetched user data:', data);
-  
-      // Ensure consistent return
-      return Array.isArray(data) ? data : data.items || [];
+      const data = await response.json();     
+      return Array.isArray(data) ? data : data.items || []
     } catch (error) {
       console.error('Error fetching user data:', error);
       return [];
     }
   }
+
+  async function validatePassword(inputPassword: string, storedHashedPassword: string): Promise<boolean> {
+    return await bcrypt.compare(inputPassword, storedHashedPassword);
+  }  
+
+  export async function isLogin(email:string,password: string) {
+    const user = await FetchUser(email, password);    
+    return await validatePassword(password,user[0].password);
+  }
+
   
