@@ -4,6 +4,13 @@ import CartView from '@/components/BuyingProcess/CartView.vue';
 import Login from '@/components/auth/login/login.vue';
 import Register from '@/components/auth/register/register.vue';
 import { AuthService } from '@/auth';
+import Admin from '@/components/Admin/admin.vue';
+import Dashboard from '@/components/Admin/1.dashboard/dashboard.vue';
+import User from '@/components/Admin/4.user/user.vue';
+import Account from '@/components/Admin/5.account/account.vue';
+import Type from '@/components/Admin/3.product/2.type/type.vue';
+import All from '@/components/Admin/3.product/1.all/all.vue';
+import Sale from '@/components/Admin/2.sale/sale.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,7 +42,46 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: Register,
-    }
+    },
+
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: Dashboard,
+        },
+        {
+          path: 'sale',
+          name: 'sale',
+          component: Sale,
+        },
+        {
+          path: 'product/all',
+          name: 'all',
+          component: All,
+        },
+        {
+          path: 'product/type',
+          name: 'type',
+          component: Type,
+        },
+        {
+          path: 'user',
+          name: 'user',
+          component: User,
+        },
+        {
+          path: 'account',
+          name: 'account',
+          component: Account,
+        },
+       
+      ],
+    },
   ],
 })
 
