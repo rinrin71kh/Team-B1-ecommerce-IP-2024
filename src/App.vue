@@ -1,9 +1,7 @@
 <template>
-  <!-- <RouterView /> -->
-   <Admin/>
+  <RouterView />
 </template>
 
 <script setup>
-// import { RouterView } from 'vue-router';
-import Admin from './components/Admin/admin.vue';
+import { RouterView } from 'vue-router';
 </script>
