@@ -24,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Empty State -->
+      
         <tr>
           <td colspan="7" class="text-center py-6 text-gray-500">គ្មានទិន្នន័យ</td>
         </tr>
