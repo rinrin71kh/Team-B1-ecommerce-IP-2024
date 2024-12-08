@@ -1,7 +1,7 @@
 <template>
   <div class="flex bg-slate-950">
     <!-- Sidebar -->
-    <aside class="fixed top-0 left-0 w-[300px] h-screen bg-[#254061] text-white z-20 flex flex-col">
+    <aside class="fixed top-0 left-0 w-[280px] h-screen bg-[#254061] text-white z-20 flex flex-col">
       <img src="/icon/eye.svg" class="w-10 h-10" />
       <ul class="mt-[100px] space-y-4 p-6">
         <li>
@@ -57,7 +57,7 @@
     <!-- Main Content -->
     <div class="flex-1 ml-[300px]">
       <!-- Header -->
-      <header class="fixed top-0 left-[300px] w-[calc(100%-300px)] text-black h-[80px] bg-white shadow-md flex items-center justify-between z-10 px-6 py-8">
+      <header class="fixed top-0 left-[280px] w-[calc(100%-280px)] text-black h-[80px] bg-white shadow-md flex items-center justify-between z-10 px-6 py-8">
         <h1 class="text-2xl font-bold">អភិបាលប្រព័ន្ធ</h1>
         <div class="flex flex-row justify-between w-[20%]">
           <!-- Replace repeated icons with a single set of icons -->

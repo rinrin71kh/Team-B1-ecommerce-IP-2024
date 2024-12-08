@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-[80px] ml-[285px] w-[1300px] h-[650px] p-8 bg-red-500 text-white">
+  <div class="mt-[80px] ml-[280px] w-[1240px] h-[650px] overflow-hidden p-8 bg-red-500 text-white">
     <p>Dashboard layout</p>
   </div>
   </template>
