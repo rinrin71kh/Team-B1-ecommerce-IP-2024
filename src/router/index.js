@@ -16,7 +16,7 @@ const router = createRouter({
       component: Landing,
     },
     {
-      path: '/view-cart',
+      path: '/viewcart',
       name: 'cart',
       component: CartView,
       meta: {

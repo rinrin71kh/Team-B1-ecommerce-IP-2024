@@ -38,10 +38,10 @@
         </div>
       </div>
       <div class="mt-4 flex justify-center gap-3 ">
-        <button class="px-4 py-2 bg-primary w-full hover:bg-gray-600 rounded-md">View Cart</button>
-        <button class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 rounded-md">
+        <a href="/viewcart" class="px-4 py-2 bg-primary w-full hover:bg-gray-600 rounded-md text-center text-white">View Cart</a>
+        <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 rounded-md text-center">
           Checkout
-        </button>
+        </a>
       </div>
     </div>
   </template>

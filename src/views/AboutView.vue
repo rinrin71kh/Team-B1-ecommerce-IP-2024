@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="qrcode-container">
-      <h1>QR Code Generator</h1>
+      <h1>KHQR</h1>
       <canvas id="qrcode"></canvas>
     </div>
     <div v-if="!success">
@@ -36,8 +36,8 @@ export default {
       const canvas = document.getElementById("qrcode");
       const result = KHQR.generate({
         tag: TAG.INDIVIDUAL,
-        accountID: "pisethkem@wing",
-        merchantName: "OUYORNG",
+        accountID: "khem_soksombath@trmc",
+        merchantName: "TEAMB1-GIC25",
         merchantID: "012345678",
         acquiringBank: "Dev Bank",
         merchantCity: "Phnom Penh",
