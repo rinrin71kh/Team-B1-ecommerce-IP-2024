@@ -32,6 +32,5 @@ export default {
     }
   }
 };
-import { ref } from 'vue';
 import Cart from './Cart.vue';
 </script>

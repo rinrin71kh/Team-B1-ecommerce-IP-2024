@@ -4,6 +4,7 @@ import { getAccessToken } from "../getAccessToken";
   function encodeEmail(email: string): string {
     return encodeURIComponent(email);
   }
+  
   async function FetchUser(email:string, password:string) {
     const encodedEmail = encodeEmail(email);    
     const url =

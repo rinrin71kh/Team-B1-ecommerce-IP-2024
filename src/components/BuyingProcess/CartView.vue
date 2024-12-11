@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen">
     <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">Cart</h1>
+      <h1 class="text-2xl font-bold mb-4">Cart</h1>
       <div class="p-6 flex 
        gap-4 items-start">
         <table class="w-full border-collapse border border-gray-300">
@@ -14,50 +14,38 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(item, index) in cartItems"
-              :key="index"
-              class="border-b border-gray-300"
-            >
+            <tr v-for="(item, index) in cartItems" :key="index" class="border-b border-gray-300">
               <td class="p-4 text-center">
-                <input
-                  type="checkbox"
-                  v-model="item.selected"
-                  @change="updateCartSummary"
-                />
+                <input type="checkbox" v-model="item.selected" @change="updateCartSummary" />
               </td>
               <td class="p-4">
                 <div class="flex items-center">
-                  <img
-                    :src="item.image"
-                    alt="Product Image"
-                    class="w-16 h-16 object-cover mr-4"
-                  />
+                  <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
+                    class="w-16 h-16 object-cover mr-4" />
                   <div>
-                    <h2 class="font-semibold">{{ item.name }}</h2>
-                    <p class="text-sm text-gray-500">{{ item.description }}</p>
+                    <h2 class="font-semibold">{{ item.productDetails.productname }}</h2>
+                    <p class="text-sm text-gray-500">{{ item.productDetails.proDescription }}</p>
                   </div>
                 </div>
               </td>
               <td class="p-4 text-center">
                 <div class="flex items-center justify-center space-x-2">
-                  <button
-                    class="px-2 py-1 bg-gray-200 rounded"
-                    @click="decreaseQuantity(index)"
-                  >
-                    -
-                  </button>
-                  <span>{{ item.quantity }}</span>
-                  <button
-                    class="px-2 py-1 bg-gray-200 rounded"
-                    @click="increaseQuantity(index)"
-                  >
-                    +
-                  </button>
+                  <div class="flex items-center space-x-2">
+                    <button :disabled="QTYs[index] === 1"
+                      @click="Decrease('Carts', item.productDetails.id, item.qty, item.userfid, index)"
+                      class="w-7 h-7 bg-primary hover:bg-gray-600 rounded-md flex items-center justify-center">
+                      -
+                    </button>
+                    <span class="w-8 text-center border-2 border-black">{{ QTYs[index] }}</span>
+                    <button @click="IncreaseQTY('Carts', item.productDetails.id, item.qty, item.userfid, index)"
+                      class="w-7 h-7 bg-primary hover:bg-gray-600 rounded-md flex items-center justify-center">
+                      +
+                    </button>
+                  </div>
                 </div>
               </td>
               <td class="p-4 text-right font-semibold">
-                $ {{ (item.quantity * item.price).toFixed(2) }}
+                $ {{ Price[index] }}
               </td>
             </tr>
           </tbody>
@@ -66,11 +54,11 @@
           <div class="w-64 bg-gray-50 p-4 rounded-lg shadow">
             <div class="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span class="font-semibold">$ {{ subtotal.toFixed(2) }}</span>
+              <span class="font-semibold">$ {{ subtotal }}</span>
             </div>
             <div class="flex justify-between mb-2">
               <span>Discount</span>
-              <span class="font-semibold">$ {{ discount.toFixed(2) }}</span>
+              <span class="font-semibold">0% {{ discount }}</span>
             </div>
             <div class="flex justify-between mb-2">
               <span>Shipping</span>
@@ -79,12 +67,9 @@
             <hr class="my-2" />
             <div class="flex justify-between">
               <span class="font-bold">Total</span>
-              <span class="font-bold">$ {{ total.toFixed(2) }}</span>
+              <span class="font-bold">$ {{ subtotal }}</span>
             </div>
-            <button
-              class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
-              @click="checkout"
-            >
+            <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700" @click="checkout">
               Checkout
             </button>
           </div>
@@ -95,74 +80,68 @@
 </template>
 
 <script>
-import router from '@/router';
+import { AddToCart, DecreaseQTY } from '@/api/Cart/AddToCart';
+import { getCart } from '@/api/Cart/getCart';
+import { onMounted, ref, toRaw } from 'vue';
 
 export default {
   data() {
     return {
-      cartItems: [
-        {
-          name: "MacBook Pro M3",
-          description: "M2 Chip / 8GB / SSD 256GB / 13.6\" Color - Black",
-          price: 1599.0,
-          quantity: 1,
-          image: "https://via.placeholder.com/150", // Replace with actual image URL
-          selected: true,
-        },
-        {
-          name: "MacBook Air M2",
-          description: "M2 Chip / 8GB / SSD 256GB / 13.6\" Color - Silver",
-          price: 1249.0,
-          quantity: 1,
-          image: "https://via.placeholder.com/150", // Replace with actual image URL
-          selected: false,
-        },
-        {
-          name: "MacBook Pro M4",
-          description: "M2 Chip / 8GB / SSD 256GB / 13.6\" Color - Black",
-          price: 2199.0,
-          quantity: 1,
-          image: "https://via.placeholder.com/150", // Replace with actual image URL
-          selected: false,
-        },
-      ],
+      cartItems: [],
+      url: 'https://techbox.developimpact.net/',
+      QTYs: [],
+      Price: [],
+      laoding: ref(true),
     };
   },
   computed: {
     subtotal() {
-      return this.cartItems.reduce(
-        (sum, item) => (item.selected ? sum + item.quantity * item.price : sum),
-        0
-      );
+      return this.cartItems.reduce((total, item, index) => {
+        return total + (item.productDetails.basePrice * this.QTYs[index]);
+      }, 0);
     },
-    discount() {
-      return 0; // Add discount logic if needed
-    },
-    total() {
-      return this.subtotal - this.discount;
-    },
+
   },
   methods: {
-    increaseQuantity(index) {
-      this.cartItems[index].quantity++;
-      this.updateCartSummary();
-    },
-    decreaseQuantity(index) {
-      if (this.cartItems[index].quantity > 1) {
-        this.cartItems[index].quantity--;
-        this.updateCartSummary();
+    async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
+      this.laoding = true;
+      try {
+        await AddToCart(cartStatus, productid, qty, userfid);
+        this.QTYs[index] += 1;
+        this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+      } catch (error) {
+        console.error('Error in IncreaseQTY:', error);
+      } finally {
+        this.laoding = false;
       }
     },
-    updateCartSummary() {
-      // Update cart calculations if needed
-    },
-    checkout() {
-      router.push('/checkout')
-    },
-  },
-};
-</script>
 
-<style scoped>
-/* Add custom styles if needed */
-</style>
+    async Decrease(cartStatus, productid, qty, userfid, index) {
+      this.laoding = true;
+      try {
+        await DecreaseQTY(cartStatus, productid, qty, userfid);
+          this.QTYs[index] -= 1;
+          this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+      } catch (error) {
+        console.error('Error decreasing quantity:', error);
+      } finally {
+        this.laoding = false;
+      }
+    },
+
+  },
+  async mounted() {
+    try {
+      const rawData = await getCart('testinguserfid'); // Fetch the cart data
+      this.cartItems = toRaw(rawData);
+      this.laoding = false;
+      this.QTYs = this.cartItems.map(item => item.qty); 
+      this.Price = this.cartItems.map(item => item.productDetails.basePrice);
+      console.log(this.cartItems);
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+    }
+  }
+}
+
+</script>

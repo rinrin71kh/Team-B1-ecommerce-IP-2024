@@ -62,7 +62,7 @@
           </p>
         </div>
       </div>
-        <button :onclick="addtoCart('Carts',product.id,1,'testinguserfid')" v-if="product.availableStatus === 'Available'"
+        <button @click="addtoCart('Carts',product.id,1,'testinguserfid')" v-if="product.availableStatus === 'Available'"
           class="w-full mt-4 bg-inherit border-2 border-blue-500 text-black rounded-xl py-2 hover:bg-blue-700">
           Add to Cart
         </button>
@@ -85,10 +85,6 @@ export default {
     const url = "https://techbox.developimpact.net";
     const products = ref(null);
 
-    function addtoCart(cartstatus,productid,qty,userfid) {
-      // AddToCart(cartstatus,productid,qty,userfid)
-    }
-
     // Fetch products on component mount
     onMounted(async () => {
       try {
@@ -104,9 +100,13 @@ export default {
     return {
       url,
       products,
-      addtoCart,
     };
   },
+  methods:{
+    addtoCart(cartstatus,productid,qty,userfid) {
+      AddToCart(cartstatus,productid,qty,userfid)
+    }
+  }
 };
 </script>
 
