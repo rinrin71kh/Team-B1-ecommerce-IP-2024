@@ -1,4 +1,3 @@
-import { user } from "@nextui-org/theme";
 import { getAccessToken } from "../getAccessToken";
 
 export async function AddToCart(cartstatus: string, productid: string, qty: number, userfid: string) {
@@ -11,7 +10,9 @@ export async function AddToCart(cartstatus: string, productid: string, qty: numb
     };
 
     const url = 'https://techbox.developimpact.net/o/c/carts/';
-    const urlGet = `https://techbox.developimpact.net/o/c/carts/?filter=productid%20eq%20%27${productid}%27`
+    // const urlGet = `https://techbox.developimpact.net/o/c/carts/?filter=productid%20eq%20%27${productid}%27`
+    const urlGet = `https://techbox.developimpact.net/o/c/carts/?filter=productid%20eq%20%20%27${productid}%27%20and%20cartstatus%20eq%20%27Carts%27`
+    
     //Check if the data already have in db
     const response = await fetch(urlGet, {
         method: 'GET',
@@ -27,7 +28,11 @@ export async function AddToCart(cartstatus: string, productid: string, qty: numb
         return [];
     }
     const getExistingData = await response.json();
+    //If dont have perfom if
+    //if have check status if it is = carts perfom increase
+    console.log(getExistingData);
     
+    //If not, add new data to db. Else, update the existing data.
     if (!getExistingData.items[0]) {
         fetch(url, {
             method: 'POST',

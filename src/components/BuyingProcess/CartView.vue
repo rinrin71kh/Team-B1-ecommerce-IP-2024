@@ -67,22 +67,31 @@
             <hr class="my-2" />
             <div class="flex justify-between">
               <span class="font-bold">Total</span>
-              <span class="font-bold">$ {{ subtotal }}</span>
+              <span class="font-bold">$ {{ Total }}</span>
             </div>
-            <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700" @click="checkout">
-              Checkout
+            <!-- <a href="/checkout"> -->
+            <button @click="loadQRpay" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+              Pay Now
             </button>
+            <!-- </a> -->
           </div>
         </div>
       </div>
     </div>
   </div>
+  <component v-if="sharedState.QRpayComponent" :is="sharedState.QRpayComponent" :amountInKHR="GrandTotal"
+    :itemsID="itemsID" />
 </template>
 
 <script>
 import { AddToCart, DecreaseQTY } from '@/api/Cart/AddToCart';
 import { getCart } from '@/api/Cart/getCart';
 import { onMounted, ref, toRaw } from 'vue';
+import { defineAsyncComponent } from 'vue';
+import QRpay from './QRpay.vue';
+import QRtest from './QRtest.vue';
+import { sharedState } from '@/stores/cartStore';
+
 
 export default {
   data() {
@@ -91,15 +100,30 @@ export default {
       url: 'https://techbox.developimpact.net/',
       QTYs: [],
       Price: [],
+      itemsID: [],
+      GrandTotal: ref(0),
       laoding: ref(true),
+      visible: false,
+      QRpayComponent: null
     };
+  },
+  components: {
+    QRpay, QRtest
   },
   computed: {
     subtotal() {
+      // this.Total = total + (item.productDetails.basePrice * this.QTYs[index]);
       return this.cartItems.reduce((total, item, index) => {
         return total + (item.productDetails.basePrice * this.QTYs[index]);
       }, 0);
     },
+    Total() {
+      this.visible = true;
+      return this.subtotal; // or add other logic for total calculation (discount, shipping, etc.)
+    },
+    sharedState() {
+      return sharedState;
+    }
 
   },
   methods: {
@@ -120,8 +144,8 @@ export default {
       this.laoding = true;
       try {
         await DecreaseQTY(cartStatus, productid, qty, userfid);
-          this.QTYs[index] -= 1;
-          this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+        this.QTYs[index] -= 1;
+        this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
       } catch (error) {
         console.error('Error decreasing quantity:', error);
       } finally {
@@ -129,14 +153,27 @@ export default {
       }
     },
 
+    handlePay() {
+      this.GrandTotal = this.subtotal
+    },
+
+    loadQRpay() {
+      this.GrandTotal = this.subtotal
+      if (!sharedState.QRpayComponent) {
+        sharedState.QRpayComponent = defineAsyncComponent(() =>
+          import('./QRpay.vue')
+        );
+      }
+    },
   },
   async mounted() {
     try {
       const rawData = await getCart('testinguserfid'); // Fetch the cart data
       this.cartItems = toRaw(rawData);
       this.laoding = false;
-      this.QTYs = this.cartItems.map(item => item.qty); 
+      this.QTYs = this.cartItems.map(item => item.qty);
       this.Price = this.cartItems.map(item => item.productDetails.basePrice);
+      this.itemsID = this.cartItems.map(item => item.id);
       console.log(this.cartItems);
     } catch (error) {
       console.error('Error fetching cart data:', error);

@@ -22,7 +22,6 @@ import QRCode from "qrcode";
 import axios from "axios";
 
 export default {
-  name: "QRCodeGenerator",
   data() {
     return {
       md5: "",
@@ -30,6 +29,9 @@ export default {
       error: null,
       success: false,
     };
+  },
+  props:{
+    amountInKHR: ""
   },
   methods: {
     async generateQRCode() {
@@ -42,7 +44,7 @@ export default {
         acquiringBank: "Dev Bank",
         merchantCity: "Phnom Penh",
         currency: CURRENCY.KHR,
-        amount: 100,
+        amount: 200,
         countryCode: COUNTRY.KH,
         additionalData: {
           mobileNumber: "85512345678",

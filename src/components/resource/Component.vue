@@ -50,21 +50,30 @@
         <p class="text-sm text-gray-600">{{ product.proDescription }}</p>
         <div class="text-gray-500 text-sm mt-1">M2 Chip / 8GB / SSD 256GB / 13.6"</div>
         <div class="flex items-center justify-between mt-3">
-        <div class="flex gap-2">
-          <p v-if="product.discountasPercentage" class="line-through text-gray-400 text-lg">
-            ${{ product.basePrice }}
-          </p>
-          <p v-if="product.discountasPercentage" class="text-black-200 font-semibold text-2xl">
-            ${{ product.basePrice - (product.basePrice * product.discountasPercentage / 100) }}
-          </p>
-          <p v-else class="text-black-200 font-semibold text-2xl">
-            ${{ product.basePrice }}
-          </p>
+          <div class="flex gap-2">
+            <p v-if="product.discountasPercentage" class="line-through text-gray-400 text-lg">
+              ${{ product.basePrice }}
+            </p>
+            <p v-if="product.discountasPercentage" class="text-black-200 font-semibold text-2xl">
+              ${{ product.basePrice - (product.basePrice * product.discountasPercentage / 100) }}
+            </p>
+            <p v-else class="text-black-200 font-semibold text-2xl">
+              ${{ product.basePrice }}
+            </p>
+          </div>
         </div>
-      </div>
-        <button @click="addtoCart('Carts',product.id,1,'testinguserfid')" v-if="product.availableStatus === 'Available'"
-          class="w-full mt-4 bg-inherit border-2 border-blue-500 text-black rounded-xl py-2 hover:bg-blue-700">
+        <button @click="addtoCart('Carts', product.id, 1, 'testinguserfid')" v-if="product.availableStatus === 'Available' && status "
+          class="w-full bg-indigo-500 mt-4 bg-inherit border-2 border-blue-500 text-black rounded-xl py-2 hover:bg-blue-700">
           Add to Cart
+        </button>
+        <button v-else-if="!status" type="button" class="bg-indigo-500 flex w-full rounded-md justify-center items-center my-2" disabled>
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>Processing...
         </button>
         <button v-else class="w-full mt-4 bg-gray-300 text-gray-600 rounded py-2 cursor-not-allowed">
           Out of Stock
@@ -81,6 +90,11 @@ import { getProduct } from '@/api/Fetch/fetchProduct';
 import { AddToCart } from '@/api/Cart/AddToCart';
 
 export default {
+  data(){
+    return{
+      status: true,
+    }
+  },
   setup() {
     const url = "https://techbox.developimpact.net";
     const products = ref(null);
@@ -102,10 +116,30 @@ export default {
       products,
     };
   },
-  methods:{
-    addtoCart(cartstatus,productid,qty,userfid) {
-      AddToCart(cartstatus,productid,qty,userfid)
-    }
+  methods: {
+    async addtoCart(cartstatus, productid, qty, userfid) {
+      this.status = false;
+      try {
+        await AddToCart(cartstatus, productid, qty, userfid)
+      } catch (error) {
+        console.log(error.message);
+      } finally{
+        this.status = true
+      }
+      this.status = true
+    },
+    async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
+      this.laoding = true;
+      try {
+        await AddToCart(cartStatus, productid, qty, userfid);
+        this.QTYs[index] += 1;
+        this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+      } catch (error) {
+        console.error('Error in IncreaseQTY:', error);
+      } finally {
+        this.laoding = false;
+      }
+    },
   }
 };
 </script>
