@@ -120,9 +120,9 @@ export default defineComponent({
         errorMessage.value = ''
         const user = await isLogin(email.value,password.value);       
         if(user){
-          router.push('/register')
+          router.push('/')
         }else{
-          errorMessage.value = 'Invalid email or password';
+          errorMessage.value = 'Unknown email or password';
         }
       } catch (error) {
         errorMessage.value = 'Something went wrong';
