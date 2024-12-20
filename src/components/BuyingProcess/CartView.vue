@@ -4,6 +4,7 @@
       <h1 class="text-2xl font-bold mb-4">Cart</h1>
       <div class="p-6 flex 
        gap-4 items-start">
+       
         <table class="w-full border-collapse border border-gray-300">
           <thead class="bg-gray-200">
             <tr>

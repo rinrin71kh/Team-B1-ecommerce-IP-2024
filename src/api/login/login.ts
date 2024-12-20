@@ -32,7 +32,7 @@ import { getAccessToken } from "../getAccessToken";
         return [];
       }
       const data = await response.json();     
-      
+       
       return Array.isArray(data) ? data : data.items || []
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -48,5 +48,3 @@ import { getAccessToken } from "../getAccessToken";
     const user = await FetchUser(email, password);    
     return await validatePassword(password,user[0].password);
   }
-
-  
