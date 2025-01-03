@@ -2,16 +2,16 @@
   <div class="flex bg-white min-h-screen">
     <!-- Sidebar -->
     <aside class="fixed top-0 left-0 w-72 h-screen bg-[#254061] text-white z-20 flex flex-col">
-      <img src="/icon/eye.svg" alt="Logo" class="w-10 h-10 mx-auto mt-4" />
+      <img src="/images/logo.png" alt="Logo" class="w-40 h-20 mx-auto mt-4" />
       <ul class="mt-10 space-y-4 px-6">
         <li>
           <router-link to="/admin/dashboard" class="sidebar-link">
-            <span><img src="/icon/eye.svg" alt="Dashboard Icon" class="icon" /></span> ផ្ទាំងព័ត៍មាន
+            <span><img src="/icon/bars-3.svg" alt="Dashboard Icon" class="icon" /></span> ផ្ទាំងព័ត៍មាន
           </router-link>
         </li>
         <li>
           <router-link to="/admin/sale" class="sidebar-link">
-            <span><img src="/icon/eye.svg" alt="Sale Icon" class="icon" /></span> ការលក់
+            <span><img src="/icon/shopping-cart.svg" alt="Sale Icon" class="icon text-slate-200" /></span> ការលក់
           </router-link>
         </li>
         <li>
@@ -23,19 +23,19 @@
               aria-expanded="false"
             >
               <span class="flex items-center">
-                <img src="/icon/eye.svg" alt="Product Icon" class="icon" /> ផលិតផល
+                <img src="/icon/Grid.svg" alt="Product Icon" class="icon" /> ផលិតផល
               </span>
               <span class="text-sm">{{ isProductOpen ? '▲' : '▼' }}</span>
             </div>
             <ul v-if="isProductOpen" class="ml-6 mt-2 space-y-2 rounded-md">
               <li>
                 <router-link to="/admin/product/all" class="sub-link">
-                  <span><img src="/icon/eye.svg" alt="All Products Icon" class="icon" /></span> ទាំងអស់
+                  <span>ទាំងអស់</span> 
                 </router-link>
               </li>
               <li>
                 <router-link to="/admin/product/type" class="sub-link">
-                  <span><img src="/icon/eye.svg" alt="Product Types Icon" class="icon" /></span> ប្រភេទ
+                  <span>ប្រភេទ</span> 
                 </router-link>
               </li>
             </ul>
@@ -43,12 +43,12 @@
         </li>
         <li>
           <router-link to="/admin/user" class="sidebar-link">
-            <span><img src="/icon/eye.svg" alt="User Icon" class="icon" /></span> អ្នកប្រើប្រាស់
+            <span><img src="/icon/user-circle.svg" alt="User Icon" class="icon" /></span> អ្នកប្រើប្រាស់
           </router-link>
         </li>
         <li>
           <router-link to="/admin/account" class="sidebar-link">
-            <span><img src="/icon/eye.svg" alt="Account Icon" class="icon" /></span> គណនីយ
+            <span><img src="/icon/user-circle.svg" alt="Account Icon" class="icon" /></span> គណនីយ
           </router-link>
         </li>
       </ul>
