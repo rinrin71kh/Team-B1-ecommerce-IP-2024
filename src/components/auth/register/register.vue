@@ -3,7 +3,7 @@
     style="background-image: url('/Signin.jpg');">
     <div class="bg-white shadow-lg p-8 w-[450px] kantumruy-pro-regular">
       <div class="text-left mb-4">
-        <span class="focus:outline-none cursor-pointer text-xl">
+        <span class="focus:outline-none cursor-pointer text-xl" @click.prevent="$router.push('/login')">
           ← បង្កើតគណនី
         </span>
       </div>
@@ -56,7 +56,7 @@
 
         <button type="button"
           class="w-full flex items-center justify-center border border-gray-300 py-3 text-base text-gray-700 hover:bg-gray-100 transition"
-          @click.prevent="$router.push('/')">
+          @click.prevent="$router.push('/login')">
           ចូល
         </button>
       </form>
