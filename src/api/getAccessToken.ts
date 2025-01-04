@@ -1,10 +1,9 @@
 //Get access token from Rest API
 export async function getAccessToken(): Promise<string | undefined> {
   //Suppose store in env but it doesn't matter
-    const clientId = 'id-ff33fd67-2662-23d2-e387-7e660796b71';
-    const clientSecret = 'secret-16433662-63e6-dea2-91b5-c0be0d0db7c';
-    const tokenUrl = 'https://techbox.developimpact.net/o/oauth2/token';
-  
+    const clientId = import.meta.env.VITE_CLIENTID;
+    const clientSecret = import.meta.env.VITE_CLIENTSECRET;
+    const tokenUrl = import.meta.env.VITE_TOKEN_URL;
     try {
       const response = await fetch(tokenUrl, {
         method: 'POST',

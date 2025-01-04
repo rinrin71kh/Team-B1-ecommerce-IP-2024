@@ -1,6 +1,7 @@
-import { getAccessToken } from "../getAccessToken";
+import { getAccessToken } from "../getAccessToken.js";
 
 export async function getProduct() {
+  
     const url =
       `https://techbox.developimpact.net/o/c/products/`;
   

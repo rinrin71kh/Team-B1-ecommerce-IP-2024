@@ -23,7 +23,17 @@
                                         <h1 class="text-4xl font-bold">${{ amountInKHR }}</h1>
                                         <button>Pay with Credit Card</button>
                                     </div>
+                                    <div v-if="loading" class="flex relative gap-4 justify-center items-center w-full">
                                     <h2>Checking Transaction Status...</h2>
+                                        <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-black"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                            </path>
+                                        </svg>
+                                    </div>
                                     <p v-if="error">{{ error }}</p>
                                 </div>
                                 <div>
@@ -72,6 +82,8 @@ import axios from "axios";
 import { ChangeBoughtStatus } from "@/api/Cart/ChangeStatus";
 import { sharedState } from "@/stores/cartStore";
 import router from "@/router";
+import { getBakongQR, getCurrentDateTime, sendTelegramMessage } from "@/api/payway/BakongPay";
+import { ref } from "vue";
 
 export default {
     data() {
@@ -81,6 +93,7 @@ export default {
             error: null,
             success: false,
             popup: true,
+            loading: ref(true),
         };
     },
     props: {
@@ -99,47 +112,22 @@ export default {
     methods: {
         async generateQRCode() {
             const canvas = document.getElementById("qrcode");
-            const result = KHQR.generate({
-                tag: TAG.INDIVIDUAL,
-                accountID: "khem_soksombath@trmc",
-                merchantName: "TEAMB1-GIC25",
-                merchantID: "012345678",
-                acquiringBank: "Dev Bank",
-                merchantCity: "Phnom Penh",
-                currency: CURRENCY.KHR,
-                amount: this.amountInKHR,
-                countryCode: COUNTRY.KH,
-                additionalData: {
-                    mobileNumber: "85512345678",
-                    billNumber: "INV-2022-12-25",
-                    storeLabel: "Ishin Shop",
-                    terminalLabel: "012345",
-                    purposeOfTransaction: "Payment",
-                },
-                languageData: {
-                    languagePreference: "ZH",
-                    merchantNameAlternateLanguage: "文山",
-                    merchantCityAlternateLanguage: "金边",
-                },
-                upiMerchantAccount: "",
-            });
+            const result = await getBakongQR(this.amountInKHR);
+            QRCode.toCanvas(canvas, result.qr, (error) => {
 
-            QRCode.toCanvas(canvas, result.data.qr, (error) => {
                 if (error) {
                     console.error("Error generating QR code:", error);
                 }
             });
 
-            this.md5 = result.data.md5;
+            this.md5 = result.md5;
 
             this.checkTransactionStatus();
 
         },
         async checkTransactionStatus() {
-            const url = "https://api-bakong.nbc.gov.kh/v1/check_transaction_by_md5";
-            const accessToken =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoiNDU3MzJlMzhiN2E3NDM3NiJ9LCJpYXQiOjE3MzM0NTU4NjEsImV4cCI6MTc0MTIzMTg2MX0.VF3vKIm0eSVvT9VqiUXMy7rPPqO-bzin8wcKlwNUR2g";
-
+            const url = import.meta.env.VITE_BAKONG_ACCESS_URL
+            const accessToken = import.meta.env.VITE_BAKONG_API_KEY
             try {
                 const res = await axios.post(
                     url,
@@ -157,6 +145,12 @@ export default {
                     this.success = true;
                     this.response = res.data;
                     this.itemsID.map((item) => ChangeBoughtStatus(item))
+                    console.log(res);
+                    
+                    const date = getCurrentDateTime();
+                    await sendTelegramMessage(date + "- Order successfully Purchase by testing@user: " + this.amountInKHR + "$. " +
+                    "From account: " + res.data.data.fromAccountId + " to " + res.data.data.toAccountId + " transactionRef: " + res.data.data.externalRef + "."
+                )
                     setTimeout(() => sharedState.QRpayComponent = null,
                         3000)
                     setTimeout(() => router.push("/"),
@@ -176,7 +170,6 @@ export default {
         },
     },
     mounted() {
-        console.log("this" + this.itemsID)
         this.generateQRCode();
 
     },
