@@ -6,6 +6,7 @@ import { getAccessToken } from "../getAccessToken";
   }
   
   async function FetchUser(email:string, password:string) {
+    
     const encodedEmail = encodeEmail(email);    
     const url =
       `https://techbox.developimpact.net/o/c/users/?fields=email%2Cpassword&filter=email%20eq%20%27${encodedEmail}%27`;
@@ -31,7 +32,7 @@ import { getAccessToken } from "../getAccessToken";
         console.error('Failed to fetch user data:', errorDetails);
         return [];
       }
-      const data = await response.json();     
+      const data = await response.json();           
        
       return Array.isArray(data) ? data : data.items || []
     } catch (error) {
@@ -46,5 +47,5 @@ import { getAccessToken } from "../getAccessToken";
 
   export async function isLogin(email:string,password: string) {
     const user = await FetchUser(email, password);    
-    return await validatePassword(password,user[0].password);
+    return await validatePassword(password,user[0].password);    
   }

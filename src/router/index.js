@@ -9,30 +9,39 @@ import Landing from '@/components/resource/landing.vue';
 import Checkout from '@/components/BuyingProcess/Checkout.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
       name: 'home',
       component: Landing,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/checkout',
       name: 'cart',
       component: CartView,
       meta: {
-        requiresAuth: false,
+        requiresAuth: true,
       },
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
+      meta: {
+        requiresGuest: true,
+      }
     },
     {
       path: '/register',
       name: 'register',
       component: Register,
+      meta: {
+        requiresGuest: true,
+      }
     },
     {
       path: '/test',
@@ -43,11 +52,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !AuthService.isLoggedIn()) {
+  const isLoggedIn = AuthService.isLoggedIn();
+  if (to.meta.requiresGuest && isLoggedIn) {
+    next({ name: 'home' });
+  } else if (to.meta.requiresAuth && !isLoggedIn) {
     next({ name: 'login' });
   } else {
     next();
   }
 });
+
+
 
 export default router;

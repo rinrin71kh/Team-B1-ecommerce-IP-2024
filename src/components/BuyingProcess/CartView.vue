@@ -33,7 +33,7 @@
                 <div class="flex items-center justify-center space-x-2">
                   <div class="flex items-center space-x-2">
                     <button :disabled="QTYs[index] === 1"
-                      @click="Decrease('Carts', item.productDetails.id, item.qty, item.userfid, index)"
+                      @click="Decrease(item.productDetails.id,index)"
                       class="w-7 h-7 bg-primary hover:bg-gray-600 rounded-md flex items-center justify-center">
                       -
                     </button>
@@ -131,9 +131,11 @@ export default {
     async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
       this.laoding = true;
       try {
-        await AddToCart(cartStatus, productid, qty, userfid);
-        this.QTYs[index] += 1;
-        this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+        const check = await AddToCart(cartStatus, productid, qty, userfid);
+        if(check){
+          this.QTYs[index] += 1;
+          this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+        }
       } catch (error) {
         console.error('Error in IncreaseQTY:', error);
       } finally {
@@ -141,12 +143,14 @@ export default {
       }
     },
 
-    async Decrease(cartStatus, productid, qty, userfid, index) {
+    async Decrease(productid,index) {
       this.laoding = true;
       try {
-        await DecreaseQTY(cartStatus, productid, qty, userfid);
-        this.QTYs[index] -= 1;
-        this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+        const check = await DecreaseQTY(productid);
+        if(check){
+          this.QTYs[index] -= 1;
+          this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
+        }        
       } catch (error) {
         console.error('Error decreasing quantity:', error);
       } finally {

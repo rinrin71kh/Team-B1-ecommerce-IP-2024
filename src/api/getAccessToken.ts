@@ -25,7 +25,7 @@ export async function getAccessToken(): Promise<string | undefined> {
       }
   
       const data = await response.json();
-      return data.access_token;
+      return await data.access_token;
     } catch (error) {
       console.error('Error fetching access token:', error);
       return undefined;

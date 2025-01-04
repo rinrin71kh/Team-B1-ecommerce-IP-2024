@@ -36,7 +36,7 @@
             <input
               v-model="password"
               type="password"
-              id="email"
+              id="password"
               placeholder="Password"
               class="w-full border border-gray-300  px-3 py-3 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
@@ -120,7 +120,9 @@ export default defineComponent({
         errorMessage.value = ''
         const user = await isLogin(email.value,password.value);       
         if(user){
-          router.push('/')
+          // AuthService.login(user);
+          localStorage.setItem('authToken', user);
+          router.push({ name: 'home' });
         }else{
           errorMessage.value = 'Unknown email or password';
         }
