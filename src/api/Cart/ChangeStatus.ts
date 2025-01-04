@@ -1,4 +1,4 @@
-import { getAccessToken } from "../getAccessToken";
+import { getAccessToken } from "../getAccessToken.js";
 
 export async function ChangeBoughtStatus(productid: string) {
     const accessToken = await getAccessToken()

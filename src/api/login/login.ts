@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { getAccessToken } from "../getAccessToken";
+import { getAccessToken } from "../getAccessToken.js";
 
   function encodeEmail(email: string): string {
     return encodeURIComponent(email);
