@@ -43,7 +43,7 @@ import { getAccessToken } from "../getAccessToken";
 
   async function validatePassword(inputPassword: string, storedHashedPassword: string): Promise<boolean> {
     return await bcrypt.compare(inputPassword, storedHashedPassword);
-  }  
+  }
 
   export async function isLogin(email:string,password: string) {
     const user = await FetchUser(email, password);    

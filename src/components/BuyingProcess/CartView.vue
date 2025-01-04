@@ -87,7 +87,7 @@
 <script>
 import { AddToCart, DecreaseQTY } from '@/api/Cart/AddToCart';
 import { getCart } from '@/api/Cart/getCart';
-import { onMounted, ref, toRaw } from 'vue';
+import { ref, toRaw } from 'vue';
 import { defineAsyncComponent } from 'vue';
 import QRpay from './QRpay.vue';
 import QRtest from './QRtest.vue';

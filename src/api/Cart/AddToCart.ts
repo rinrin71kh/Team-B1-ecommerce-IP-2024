@@ -1,17 +1,18 @@
 import { toRaw } from "vue";
 import { getAccessToken } from "../getAccessToken";
+import { CartModel } from "./Model/CartModel";
 
-export async function AddToCart(cartstatus: string, productid: string, qty: number, userfid: string) : Promise<boolean> {
+export async function AddToCart(cart : CartModel) : Promise<boolean> {
     const accessToken = await getAccessToken()
     const jsonObject = {
-        "cartstatus": cartstatus,
-        "productid": productid,
-        "qty": qty,
-        "userfid": userfid
+        "cartstatus": cart.cartStatus,
+        "productid": cart.productid,
+        "qty": cart.qty,
+        "userfid": cart.userfid
     };
 
     const url = 'https://techbox.developimpact.net/o/c/carts/';
-    const getExistingData = await getExistingDatas(productid);
+    const getExistingData = await getExistingDatas(cart.productid);
     //If dont have perfom if
     //if have check status if it is = carts perfom increase
     console.log("ExistingData" + getExistingData);  
@@ -54,7 +55,6 @@ export async function AddToCart(cartstatus: string, productid: string, qty: numb
 }
 
 //Get Exisiting Records
-
 async function getExistingDatas(productid: string) {
     const accessToken = await getAccessToken()
     const urlGet = `https://techbox.developimpact.net/o/c/carts/?filter=productid%20eq%20%20%27${productid}%27%20and%20cartstatus%20eq%20%27Carts%27`
