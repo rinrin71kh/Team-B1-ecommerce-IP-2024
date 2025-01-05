@@ -1,7 +1,6 @@
 <template>
 
   <div class="bg-slate-100">
-
     <MyNav/>
     <RouterView class="h-screen"/>
      <Footer/>
