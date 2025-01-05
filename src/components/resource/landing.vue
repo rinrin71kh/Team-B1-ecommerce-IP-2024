@@ -11,6 +11,7 @@ import { sendTelegramMessage } from '@/api/payway/BakongPay';
     <div class="bg-gray-50">
         <Slideshow/>
         <Component/>
+        <Footer/>
         <!-- <Product_detail /> -->
     </div>
 </template>
