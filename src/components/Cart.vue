@@ -1,13 +1,14 @@
 <template>
-  <div class="max-w-sm mx-auto p-4 bg-white shadow-lg rounded-md absolute z-10 right-[50px]">
+  <div class="max-w-sm mx-auto p-4 bg-white shadow-lg absolute z-10 right-[100px] max-md:right-0 top-16 max-md:top-0 w-full max-md:w-80">
     <div v-if="laoding" class="flex relative justify-center items-center w-full">
-    <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-black" xmlns="http://www.w3.org/2000/svg"
-        fill="none" viewBox="0 0 24 24">
+      <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
+        viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor"
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
         </path>
-      </svg></div>
+      </svg>
+    </div>
     <div v-if="cartItems.length != 0" v-for="(item, index) in cartItems" :key="index" class="flex items-center mb-4">
       <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
         class="w-16 h-16 object-cover mr-4" />
@@ -30,12 +31,12 @@
       <div class="flex items-center space-x-2">
         <button :disabled="QTYs[index] === 1"
           @click="Decrease('Carts', item.productDetails.id, item.qty, item.userfid, index)"
-          class="w-7 h-7 bg-primary hover:bg-gray-600 rounded-md flex items-center justify-center">
+          class="w-7 h-7 bg-primary hover:bg-gray-600 flex items-center justify-center">
           -
         </button>
         <span class="w-8 text-center border-2 border-black">{{ QTYs[index] }}</span>
         <button @click="IncreaseQTY('Carts', item.productDetails.id, item.qty, item.userfid, index)"
-          class="w-7 h-7 bg-primary hover:bg-gray-600 rounded-md flex items-center justify-center">
+          class="w-7 h-7 bg-primary hover:bg-gray-600 flex items-center justify-center">
           +
         </button>
       </div>
@@ -56,9 +57,9 @@
       </div>
     </div>
     <div class="mt-4 flex justify-center gap-3">
-      <a href="/checkout" class="px-4 py-2 bg-primary w-full hover:bg-gray-600 rounded-md text-center text-white">View
+      <a href="/checkout" class="px-4 py-2 bg-primary w-full hover:bg-gray-600 text-center text-white">View
         Cart</a>
-      <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 rounded-md text-center">Checkout</a>
+      <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 text-center">Checkout</a>
     </div>
   </div>
 </template>

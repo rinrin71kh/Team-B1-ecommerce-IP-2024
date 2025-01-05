@@ -8,8 +8,8 @@ import Product_detail from './Product_detail.vue';
 
 <template>
     <div class="bg-gray-50">
-        <!-- <Slideshow/>
-        <Component/> -->
-        <Product_detail />
+        <Slideshow/>
+        <Component/>
+        <!-- <Product_detail /> -->
     </div>
 </template>
