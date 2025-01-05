@@ -1,5 +1,5 @@
 <template>
-  <div class=" px-[100px] max-md:px-4">
+  <div class=" px-[100px] max-md:px-4 py-14">
     <!-- Navigation Tabs -->
     <nav
       class="flex text-gray-600 border-b border-gray-300 border-gray-1 mb-6 items-end text-nowrap max-md:overflow-x-auto scrollbar-hide">
@@ -17,8 +17,8 @@
       <div class="w-full flex items-center space-x-4 py-4 ">
         <h1 class="text-2xl font-semibold text-gray-800">MacBook</h1>
       </div>
-      <div class="flex items-center space-x-2  w-full  justify-between ">
-        <div class="">
+      <div class="flex items-center space-x-2  max-md:w-full  justify-between">
+        <div class="flex items-center space-x-2">
           <label for="sort" class="text-sm text-gray-600 text-nowrap pr-2">Sort By:</label>
           <select id="sort" class="border border-gray-300 px-3 py-1 max-md:px-2 text-gray-700">
             <option value="default">Default</option>

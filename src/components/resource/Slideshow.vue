@@ -1,5 +1,5 @@
 <template >
-      <div class="w-full px-[100px] max-md:px-4  mx-auto  max-md:my-8">
+      <div class="w-full px-[100px] max-md:px-4  mx-auto my-14  max-md:my-8">
         <!-- Slideshow Images -->
         <div class="overflow-hidden ">
           <div
@@ -9,7 +9,7 @@
             <div
               v-for="(image, index) in images"
               :key="index"
-              class="flex-none w-full h-72 max-md:h-40"
+              class="flex-none w-full h-80 max-md:h-40"
             >
               <img
                 :src="image"
