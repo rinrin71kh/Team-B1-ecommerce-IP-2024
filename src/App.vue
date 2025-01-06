@@ -2,7 +2,7 @@
 
   <div class="bg-slate-100">
     <MyNav/>
-    <!-- <tab/> -->
+    <tab/>
     
     <RouterView class="h-screen"/>
      

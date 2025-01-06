@@ -27,7 +27,7 @@
       </v-tabs>
      -->
     
-        <div class="text-center">
+        <!-- <div class="text-center">
             <v-menu open-on-hover>
                 <template v-slot:activator="{ props }">
                     <v-btn color="primary" v-bind="props">
@@ -41,7 +41,16 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-        </div>
+        </div> -->
+
+        <!-- <v-rating
+          :length="5"
+          :size="32"
+          :model-value="3"
+          active-color="primary"
+          background-color="transparent"
+        /> -->
+
     
 </template>
 
