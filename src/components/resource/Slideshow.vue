@@ -1,5 +1,5 @@
 <template >
-      <div class="w-full px-[100px] max-md:px-4  mx-auto my-14  max-md:my-8 max-lg:px-8 ">
+      <div class="w-full max-md:py-5 px-4 ">
         <!-- Slideshow Images -->
         <div class="overflow-hidden ">
           <div

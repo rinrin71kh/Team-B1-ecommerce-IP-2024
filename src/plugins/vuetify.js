@@ -11,8 +11,8 @@ const vuetify = createVuetify({
     themes: {
       light: {
         colors: {
-          primary: '#254061', // Use Tailwind's primary color
-          secondary: '#64748b',
+          primary: '#254061', 
+          // secondary: '#64748b',
         },
       },
     },
