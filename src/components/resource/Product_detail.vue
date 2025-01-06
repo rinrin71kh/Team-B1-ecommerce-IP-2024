@@ -1,13 +1,13 @@
 <template>
-  <div class="bg-gray-50 p-6">
+  <div class="bg-gray-50 p-6" v-if="data">
     <!-- Product Details Section -->
     <div class="flex flex-col lg:flex-row gap-8">
       <!-- Product Image -->
       <div class="flex-1">
         <div class="relative">
           <img
-            src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16-spacegray-select-202301?wid=400&hei=400&fmt=jpeg&qlt=95&.v=1671304675566"
-            alt="MacBook Pro M3"
+            :src="url+data.proImage.link.href|| 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16-spacegray-select-202301?wid=400&hei=400&fmt=jpeg&qlt=95&.v=1671304675566'"
+            alt="Product Image"
             class="rounded-lg object-cover w-full max-w-sm mx-auto border border-gray-300"
           />
         </div>
@@ -15,11 +15,9 @@
 
       <!-- Product Info -->
       <div class="flex-1">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">MacBook Pro M3</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ data.productname }}</h1>
         <p class="text-sm text-gray-600 mb-4">
-          CPU M3 Max (14-core CPU, 30-core GPU, 16-core Neural Engine), RAM
-          36GB, Storage 1TB, Display 14.2" Liquid Retina XDR Display, WIFI 5,
-          Bluetooth 5, Weight 1.62kg, OS MacOS, Warranty 1-year
+          {{ data.proDescription }}
         </p>
 
         <!-- Rating -->
@@ -31,7 +29,7 @@
         </div>
 
         <!-- Price -->
-        <div class="text-3xl font-bold text-gray-800 mb-4">$1,199</div>
+        <div class="text-3xl font-bold text-gray-800 mb-4">${{ data.basePrice }}</div>
 
         <!-- Add to Cart -->
         <div class="flex items-center space-x-4">
@@ -42,6 +40,7 @@
             class="w-16 border border-gray-300 rounded-lg text-center"
           />
           <button
+            @click="IncreaseQTY('Carts', data.productid, data.qty, data.userfid)"
             class="bg-blue-600 text-white px-6 py-2 rounded-lg border border-gray-600 hover:bg-blue-700"
           >
             Add to Cart
@@ -76,9 +75,18 @@
       </div>
     </div>
   </div>
+  <div v-else class="flex justify-center items-center h-screen">
+    <p>Loading...</p>
+  </div>
 </template>
 
 <script>
+import { fetchProductByID } from '@/api/Fetch/fetchProductByID';
+import { ref, toRaw } from 'vue';
+import { useRoute } from 'vue-router';
+import { onMounted } from 'vue';
+import { AddToCart } from '@/api/Cart/AddToCart';
+
 export default {
   data() {
     return {
@@ -92,34 +100,73 @@ export default {
         },
         {
           id: 2,
-          text: "មេម៉ាយ!!",
+          text: "ទំនើបទាន់សម័យ!!",
           avatar: "https://via.placeholder.com/40?text=L",
           name: "Ly Makara",
           date: "02/10/2024",
         },
         {
           id: 3,
-          text: "មេម៉ាយ!!",
+          text: "ទំនើបទាន់សម័យ!!",
           avatar: "https://via.placeholder.com/40?text=K",
           name: "Khem Soksombath",
           date: "02/10/2024",
         },
         {
           id: 4,
-          text: "មេម៉ាយ!!",
+          text: "ទំនើបទាន់សម័យ!!",
           avatar: "https://via.placeholder.com/40?text=B",
           name: "Khour Borin Satya",
           date: "02/10/2024",
         },
       ],
-    };
+    }
   },
+  setup() {
+    const route = useRoute();
+    const productId = route.params.id;
+    const data = ref(null);
+    const loading = ref(true);
+    const url = 'https://techbox.developimpact.net';
+
+    onMounted(async () => {
+      try {
+        const res = await fetchProductByID(productId);
+        data.value = toRaw(res);
+        
+      } catch (error) {
+        console.log(error);
+      } finally {
+        loading.value = false;
+      }
+    });
+
+    return {
+      productId,
+      data,
+      loading,
+      url
+    }
+  },
+  methods:{
+    async IncreaseQTY(cartStatus, productid, qty, userfid) {
+      this.laoding = true;
+      try {
+        const check = await AddToCart(cartStatus, productid, qty, userfid);
+        console.log(check);
+        
+      } catch (error) {
+        console.error('Error in IncreaseQTY:', error);
+      } finally {
+        this.laoding = false;
+      }
+    },
+  }
 };
 </script>
 
 <style scoped>
-/* Custom styles for finer design tweaks */
 img {
-  max-height: 300px; /* Set max height for the product image */
+  max-height: 300px; 
 }
 </style>

@@ -53,5 +53,5 @@ export default {
     }
   }
 };
-import Cart from './Cart.vue';
+import Cart from './BuyingProcess/Cart.vue';
 </script>

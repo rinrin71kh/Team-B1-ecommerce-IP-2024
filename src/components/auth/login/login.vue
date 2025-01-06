@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-screen w-screen flex items-center justify-center bg-cover bg-center"
+    class="h-screen w-screen flex items-center justify-center bg-cover bg-center bg-red-400"
     style="background-image: url('/Signin.jpg');"
   >
     <div class="bg-white shadow-lg  p-8 w-[400px]">

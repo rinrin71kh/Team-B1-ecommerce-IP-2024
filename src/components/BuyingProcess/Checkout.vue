@@ -71,13 +71,11 @@
                 <!-- <button type="submit">Save Billing Details</button> -->
             </form>
         </section>
-        <QRtest/>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import QRtest from './QRtest.vue';
 
 const cartStore = useCartStore();
 const {
