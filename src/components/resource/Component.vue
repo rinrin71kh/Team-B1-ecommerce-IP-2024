@@ -1,5 +1,5 @@
 <template>
-  <div class=" px-[100px] max-md:px-4 max-lg:px-8  max-md:py-0 bg-slate-50">
+  <div class=" px-[100px] max-md:px-4 max-lg:px-8  max-md:py-0 bg-slate-50 pb-14">
     <!-- Navigation Tabs -->
 
     <v-tabs center-active color="primary" slider-color="primary"
