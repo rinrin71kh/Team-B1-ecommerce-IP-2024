@@ -1,16 +1,25 @@
 <template>
-  <div class=" px-[100px] max-md:px-4 py-14">
+  <div class=" px-[100px] max-md:px-4 max-lg:px-8 py-14">
     <!-- Navigation Tabs -->
-    <nav
-      class="flex text-gray-600 border-b border-gray-300 border-gray-1 mb-6 items-end text-nowrap max-md:overflow-x-auto scrollbar-hide">
-      <a href="#" class="font-medium text-primary border-b-3 border-primary pb-3 px-3">Laptop</a>
-      <a href="#" class="hover:text-primary px-3 pb-3">Desktop</a>
-      <a href="#" class="hover:text-primary px-3 pb-3">Monitor</a>
-      <a href="#" class="hover:text-primary px-3 pb-3 ">PC Components</a>
-      <a href="#" class="hover:text-primary px-3 pb-3">Accessories</a>
-      <a href="#" class="hover:text-primary px-3 pb-3">Audio Device</a>
-      <a href="#" class="hover:text-primary px-3 pb-3">Printer</a>
-    </nav>
+
+    <v-tabs
+    
+      center-active
+      
+      color="primary"
+      slider-color="primary"
+      class="border-b border-gray-300 border-gray-1 mb-6 items-end text-nowrap max-md:overflow-x-auto scrollbar-hide text-gray-500"
+    >
+      <v-tab class="hover:bg-slate-200 " value="labtop">laptop</v-tab>
+      <v-tab class="hover:bg-slate-200 ">Desktop</v-tab>
+      <v-tab class="hover:bg-slate-200 ">Monitor</v-tab>
+      <v-tab class="hover:bg-slate-200 ">PC Components</v-tab>
+      <v-tab class="hover:bg-slate-200 ">Accessories</v-tab>
+      <v-tab class="hover:bg-slate-200 ">Audio Device</v-tab>
+      <v-tab class="hover:bg-slate-200 ">Audio Device</v-tab>
+      <v-tab class="hover:bg-slate-200 ">Printer</v-tab>
+    </v-tabs>
+
 
     <!-- Heading and Sorting -->
     <div class="flex justify-between items-center   max-md:flex-col-reverse max-md:space-y-4">
@@ -54,7 +63,7 @@
     <div v-if="products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Single Product Card -->
       <div v-for="product in products" :key="product.id" class="bg-white rounded shadow-md p-4">
-        <img :src="url + product.proImage.link.href" :alt="product.productname"
+        <img :src="url + product.proImage?.link.href" :alt="product.productname"
           class="w-full h-60 object-cover rounded mb-4" />
         <h2 class="text-lg font-semibold text-gray-800">{{ product.productname }}</h2>
         <p class="text-sm text-gray-600">{{ product.proDescription }}</p>
