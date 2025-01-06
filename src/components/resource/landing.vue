@@ -8,7 +8,7 @@ import { sendTelegramMessage } from '@/api/payway/BakongPay';
 </script>
 
 <template>
-    <div class="bg-gray-50">
+    <div class="bg-gray-50 ">
         <Slideshow/>
         <Component/>
         <Footer/>

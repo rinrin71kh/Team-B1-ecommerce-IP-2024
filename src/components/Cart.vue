@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-sm mx-auto p-4 bg-white shadow-lg absolute z-10 right-[100px] max-md:right-0 top-16 max-md:top-0 w-full max-md:w-80">
+  <div class="max-w-sm mx-auto p-4 bg-white shadow-lg absolute z-10 right-[100px] max-md:right-4 max-md:w-[92%] top-16 max-md:top-20 w-full max-md:pl-4">
     <div v-if="laoding" class="flex relative justify-center items-center w-full">
       <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
         viewBox="0 0 24 24">
@@ -10,7 +10,7 @@
       </svg>
     </div>
     <div v-if="cartItems.length != 0" v-for="(item, index) in cartItems" :key="index" class="flex items-center mb-4">
-      <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
+      <img :src="url + item.productDetails.proImage?.link.href" alt="Product Image"
         class="w-16 h-16 object-cover mr-4" />
       <div class="flex-1">
         <h3 class="text-lg font-semibold">{{ item.productDetails.productname }}</h3>
