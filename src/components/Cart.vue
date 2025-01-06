@@ -10,7 +10,7 @@
       </svg>
     </div>
     <div v-if="cartItems.length != 0" v-for="(item, index) in cartItems" :key="index" class="flex items-center mb-4">
-      <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
+      <img :src="url + item.productDetails.proImage?.link.href" alt="Product Image"
         class="w-16 h-16 object-cover mr-4" />
       <div class="flex-1">
         <h3 class="text-lg font-semibold">{{ item.productDetails.productname }}</h3>

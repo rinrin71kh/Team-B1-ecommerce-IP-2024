@@ -77,18 +77,20 @@
               ${{ product.basePrice - (product.basePrice * product.discountasPercentage / 100) }}
             </p>
             <p v-else class="text-black-200 font-semibold text-2xl">
-              ${{ product.basePrice }}
+              $ {{ product.basePrice | number }}
             </p>
           </div>
         </div>
-        <button @click="addtoCart('Carts', product.id, 1, 'testinguserfid')"
-          v-if="product.availableStatus === 'Available' && status"
-          class="w-full bg-indigo-500 mt-4 bg-inherit border-2 border-blue-500 text-black py-2 hover:bg-blue-700">
+        <v-btn @click="addtoCart('Carts', product.id, 1, 'testinguserfid')"
+          v-if="product.availableStatus?.key === 'available' && status"
+          class="w-auto  custom-btn" variant="outlined" rounded="0" height="44">
           Add to Cart
-        </button>
+        </v-btn>
 
-        <button v-else-if="!status" type="button"
-          class="bg-indigo-500 flex w-full  justify-center items-center my-2" disabled>
+
+
+        <v-btn v-else-if="!status" type="button"
+          class="w-auto  custom-btn" disabled>
           <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -96,7 +98,7 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
             </path>
           </svg>Processing...
-        </button>
+        </v-btn>
         <button v-else class="w-full mt-4 bg-gray-300 text-gray-600 rounded py-2 cursor-not-allowed">
           Out of Stock
         </button>
@@ -166,6 +168,25 @@ export default {
 };
 </script>
 
-<style>
-/* Custom styles */
+<style scoped>
+.custom-btn {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: '#254061' !important;
+}
+
+.custom-btn:hover {
+  background-color: #254061 !important;
+  color: white !important;
+
+}
+
+.custom-width {
+  width: 300px;
+}
+
+.custom-bg {
+  background-color: #f8fafc; /* Tailwind's slate-50 color */
+  border-radius: 9999px; /* Tailwind's rounded-full */
+}
 </style>
