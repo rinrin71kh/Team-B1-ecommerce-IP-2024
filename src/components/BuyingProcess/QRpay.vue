@@ -2,7 +2,7 @@
     <!-- <h1 class="text-center text-3xl">Make a payment</h1> -->
     <div>
         <!-- Popup overlay -->
-        <div v-if="popup" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+        <div class=" flex items-center justify-center">
             <!-- Popup content -->
             <div class="bg-white rounded-lg shadow-lg max-w-5xl w-full  relative">
                 <!-- Close button -->
@@ -21,7 +21,7 @@
                                     <h3 class="text-5xl font-">Payment amount</h3>
                                     <div class="flex gap-2 flex-col">
                                         <h1 class="text-4xl font-bold">${{ amountInKHR }}</h1>
-                                        <button>Pay with Credit Card</button>
+                                        <v-btn color="blue">Pay with Credit Card</v-btn>
                                     </div>
                                     <div v-if="loading" class="flex relative gap-4 justify-center items-center w-full">
                                         <h2>Checking Transaction Status...</h2>
@@ -46,7 +46,7 @@
                                             <polygon points="400,60 400,100 350,60" fill="#F44336" />
                                             <!-- <rect x="0" y="60" width="400" height="190" fill="#E0E0E0" rx="8"/> -->
                                             <text x="40" y="100" font-size="15" fill="#212121" font-weight="600"
-                                                text-anchor="start" alignment-baseline="middle">KHEANG OUY ORNG</text>
+                                                text-anchor="start" alignment-baseline="middle">TEAMB1 ECOMMERCE</text>
                                             <text x="40" y="140" font-size="36" fill="#212121" font-weight="bold"
                                                 text-anchor="start" alignment-baseline="middle">$ {{ amountInKHR
                                                 }}</text>
@@ -76,7 +76,6 @@
     <!-- Ref: https://bakong.nbc.gov.kh/download/KHQR/integration/Bakong%20Open%20API%20Document.pdf -->
 </template>
 <script>
-import { KHQR, CURRENCY, COUNTRY, TAG } from "ts-khqr";
 import QRCode from "qrcode";
 import axios from "axios";
 import { ChangeBoughtStatus } from "@/api/Cart/ChangeStatus";
@@ -130,7 +129,7 @@ export default {
             
             this.md5 = result.md5;
 
-            this.checkTransactionStatus();
+            // this.checkTransactionStatus();
 
         },
         async checkTransactionStatus() {

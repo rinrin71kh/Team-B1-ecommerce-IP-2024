@@ -1,29 +1,17 @@
 <template>
     <footer class="flex flex-col bg-[#254061] ">
         <div class="up flex items-center justify-center mx-16">
-            <img src="" alt="Logo GIC " class="flex-[2] p-8">
-            <div class="flex md:flex-[3] md:flex-row p-12 text-white flex-col">
-                <div class="information flex flex-col">
-                    <h2 class="text-bold text-xl mb-4">Information</h2>
-                    <a href="" class="text-sm">About us</a>
-                    <a href="" class="text-sm">Contact</a>
-                    <a href="" class="text-sm">Delivery information</a>
-                    <a href="" class="text-sm">Installment</a>
+            <img src="/public/E_commerce logo.jpg" alt="Logo GIC " class="flex w-16 aspect-square ">
+            <div class="flex md:flex-[3] md:flex-row p-12 text-white flex-col gap-4 items-center justify-center">
+                    <!-- <h2 class="text-bold text-xl mb-4">Quick Link</h2> -->
+                <div class="information flex gap-5 items-center ">
+                    <a href="/category/Macbook" class="text-sm">Macbook</a>
+                    <a href="/category/gaminggear" class="text-sm">Gaming</a>
+                    <a href="/category/accessories" class="text-sm">Accessories </a>
+                    <a href="/category/generallaptop" class="text-sm">All Laptop</a>
+                    <a href="" class="text-sm">Contact Us</a>
                 </div>
-                <div class="information flex flex-col">
-                    <h2 class="text-bold text-xl mb-4">Information</h2>
-                    <a href="" class="text-sm">About us</a>
-                    <a href="" class="text-sm">Contact</a>
-                    <a href="" class="text-sm">Delivery information</a>
-                    <a href="" class="text-sm">Installment</a>
-                </div>
-                <div class="information flex flex-col">
-                    <h2 class="text-bold text-xl mb-4">Information</h2>
-                    <a href="" class="text-sm">About us</a>
-                    <a href="" class="text-sm">Contact</a>
-                    <a href="" class="text-sm">Delivery information</a>
-                    <a href="" class="text-sm">Installment</a>
-                </div>
+                
             </div>
         </div>
         <hr/>

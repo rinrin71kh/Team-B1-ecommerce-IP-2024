@@ -1,6 +1,5 @@
 <template>
-  <div class="max-w-sm mx-auto p-4 bg-white shadow-lg absolute z-10 right-[100px] max-md:right-4 max-md:w-[92%] top-16 max-md:top-20 w-full max-md:pl-4">
-    <div v-if="laoding" class="flex relative justify-center items-center w-full">
+    <div v-if="laoding" class="flex justify-center items-center w-full">
       <!-- Loading -->
       <!-- <v-progress-linear color="blue-darken-3" model-value="20" indeterminate></v-progress-linear> -->
     </div>
@@ -36,7 +35,7 @@
         </button>
       </div>
     </div>
-    <div v-else-if="cartItems.length == 0 && !laoding">Empty</div>
+    <div v-else-if="cartItems.length == 0 && !laoding">Your Cart is empty</div>
     <!-- <div class="pt-4">
       <div class="flex justify-between text-lg font-semibold">
         <span>Subtotal</span>
@@ -51,12 +50,11 @@
         <span>$ {{ subtotal }}</span>
       </div>
     </div> -->
-    <div class="mt-4 flex justify-center gap-3">
+    <!-- <div class="mt-4 flex justify-center gap-3">
       <a href="/checkout" class="px-4 py-2 bg-primary w-full hover:bg-gray-600 text-center text-white">View
         Cart</a>
       <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 text-center">History</a>
-    </div>
-  </div>
+    </div> -->
 </template>
 
 <script>

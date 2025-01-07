@@ -121,6 +121,7 @@ export default defineComponent({
         const user = await isLogin(email.value,password.value);       
         if(user){
           // AuthService.login(user);
+          console.log(s)
           localStorage.setItem('authToken', user);
           router.push({ name: 'home' });
         }else{

@@ -2,7 +2,7 @@
   <div class="p-6 bg-gray-50">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-3xl font-bold">Gaming Offer</h2>
-      <a href="#" class="text-blue-500 hover:underline text-sm flex items-center">
+      <a href="/category/gaminggear" class="text-blue-500 hover:underline text-sm flex items-center">
         View all &nbsp; <span class="material-icons">chevron_right</span>
       </a>
     </div>

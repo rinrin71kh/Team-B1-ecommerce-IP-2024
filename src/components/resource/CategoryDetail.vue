@@ -2,7 +2,7 @@
     <div class="px-16 py-8 max-lg:px-4">
         <!-- Breadcrumb -->
         <div class="text-sm text-gray-500 mb-4">
-            <span>Home</span> &gt; <span>Products</span> &gt; <span>Laptop</span> &gt;
+            <a href="/">Home</a> &gt; <span>Products</span> &gt; <span>Laptop</span> &gt;
             <span class="text-black font-medium">{{ display }}</span>
         </div>
 
@@ -36,7 +36,7 @@
             <!-- Product Section -->
             <main class="flex-1">
                 <!-- Sort Options -->
-                <div class="flex justify-end items-center mb-6 border-b-2 py-4">
+                <div class="flex justify-end items-center mb-6 border-b-2 py-2">
                     <label for="sort" class="mr-2 text-sm font-medium">Sort by</label>
                     <select
                         id="sort"
@@ -50,12 +50,12 @@
                 </div>
 
                 <!-- Product List -->
-                <div class="md:px-16 px-4 py-10 bg-gray-50">
+                <div class="md:px-16 px-4 py-4 bg-gray-50">
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                         <div
                             v-for="(product, index) in sortedProducts"
                             :key="index"
-                            class="bg-white flex flex-col justify-between border rounded-lg shadow hover:shadow-md transition"
+                            class="bg-white p-6 flex flex-col justify-between border rounded-lg shadow hover:shadow-md transition"
                         >
                             <a :href="`/product/${product.id}`" class="block">
                                 <!-- Product Image -->
@@ -134,6 +134,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { getProductbyCategories } from '@/api/Fetch/fetchProduct';
 import { AddToCart } from '@/api/Cart/AddToCart';
+import { useRoute } from 'vue-router';
 export default {
     setup() {
         const url = 'https://techbox.developimpact.net';
@@ -144,8 +145,11 @@ export default {
             { id: 'accessories', name: 'Accessories' },
             { id: 'generallaptop', name: 'All Laptop' },
         ];
-        const selectedCategory = ref('Macbook');
-        const display = ref('Macbook');
+        const route = useRoute()
+        console.log(route.params.id)        
+        const selectedCategory = ref(route.params.id);
+        const find = categories.find(c => c.id == route.params.id)
+        const display = ref(find.name);
         const sortOption = ref('default');
         const products = ref([]);
 
