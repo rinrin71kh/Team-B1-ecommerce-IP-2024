@@ -1,11 +1,11 @@
 <template>
-    <div class="px-16">
-      <h2 class="text-xl font-bold mb-4">Popular Brands</h2>
-      <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4">
+    <div class="md:px-16 px-4">
+      <h2 class="text-xl md:text-2xl font-bold mb-4">Popular Brands</h2>
+      <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 md:gap-4">
         <div
           v-for="(brand, index) in brands"
           :key="index"
-          class="flex items-center justify-center rounded-lg w-fit hover:shadow-md transition"
+          class="flex items-center justify-center md:rounded-lg w-fit hover:shadow-md transition"
         >
           <img
             :src="brand.logo"

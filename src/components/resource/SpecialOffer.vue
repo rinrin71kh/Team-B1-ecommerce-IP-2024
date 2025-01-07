@@ -1,95 +1,68 @@
 <template>
-    <div class="px-16 py-10 bg-gray-50">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-bold">Special Offer</h2>
-        <a href="#" class="text-blue-500 hover:underline text-sm flex items-center">
-          View all &nbsp; <span class="material-icons">chevron_right</span>
+  <div class="md:px-16 px-4 py-10 bg-gray-50">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-yellow-400 text-2xl md:text-4xl font-bold">Special Offer</h2>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div v-for="(product, index) in products" :key="index"
+        class="bg-white flex flex-col justify-between border rounded-lg shadow hover:shadow-md transition">
+        <a :href="`/product/${product.id}`" class="p-3 relative">
+                  <div class="p-3 relative">
+            <div class="absolute w-full">
+              <div class="flex items-center justify-between mx-4  md:mx-8">
+                <span class="bg-red-500 text-white text-sm md:text-md px-4 font-semibold py-1 rounded">
+                  NEW
+                </span>
+                <img src="/warranty.png" alt="badge" class="h-10 md:h-14" />
+              </div>
+            </div>
+            <img :src="url + product.proImage?.link.href" :alt="product.proImage?.link.name"
+              class="h-42 w-full object-contain my-3" />
+            <h3 class="text-xl font-semibold text-gray-800 mb-1 ">
+              {{ product.productname }}
+            </h3>
+            <p class="text-gray-500 text-sm mb-3">
+              {{ product.proDescription }}
+            </p>
+          </div>
+            <div class="flex gap-2 md:gap-4 py-4 justify-start items-center">
+              <p class="text-gray-400 line-through text-lg ">
+                ${{ product.basePrice }}
+              </p>
+              <p class="text-red-500 font-semibold text-2xl ">
+                ${{ product.basePrice - (product.basePrice * product.discountasPercentage / 100) }}
+              </p>
+            </div>
         </a>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        <div
-          v-for="(product, index) in products"
-          :key="index"
-          class="bg-white border rounded-lg shadow hover:shadow-md transition"
-        >
-          <div class="p-3">
-            <div class="flex justify-between items-center">
-              <span
-                v-if="product.isNew"
-                class="bg-red-500 text-white text-xs px-2 py-1 rounded"
-              >
-                NEW
-              </span>
-              <img
-                v-if="product.badge"
-                :src="product.badge"
-                alt="badge"
-                class="h-6"
-              />
-            </div>
-            <img
-              :src="product.image"
-              :alt="product.name"
-              class="h-32 w-full object-contain my-3"
-            />
-            <h3 class="text-sm font-medium text-gray-800 mb-1 truncate">
-              {{ product.name }}
-            </h3>
-            <p class="text-red-500 font-bold text-lg">
-              {{ product.price }}
-            </p>
-            <p class="text-gray-400 line-through text-sm">
-              {{ product.originalPrice }}
-            </p>
-            <p v-if="product.monthlyPayment" class="text-gray-600 text-sm">
-              Or {{ product.monthlyPayment }} for 12 mo.
-            </p>
-            <div class="text-sm text-gray-600 flex items-center mt-2">
-              <span class="material-icons text-blue-500 text-base">schedule</span>
-              <span class="ml-1">
-                Deal ends in {{ product.dealEnds }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: "SpecialOffers",
-    data() {
-      return {
-        products: [
-          {
-            name: "Sony ULT FIELD 1 Wireless Portable...",
-            image: "/path-to-image/sony-1.png",
-            price: "$99.00",
-            originalPrice: "$129.00",
-            monthlyPayment: "$9.00/mo.",
-            dealEnds: "25d 14:27:09",
-            isNew: true,
-            badge: "/path-to-image/badge-1.png",
-          },
-          {
-            name: "Sony ULT TOWER 10 Wireless Party Speaker",
-            image: "/path-to-image/sony-2.png",
-            price: "$1,169.00",
-            originalPrice: "$1,199.00",
-            monthlyPayment: "$104.00/mo.",
-            dealEnds: "25d 14:27:09",
-            isNew: true,
-            badge: "/path-to-image/badge-1.png",
-          },
-          // Add more products as needed
-        ],
-      };
-    },
-  };
-  </script>
-  
-  <style scoped>
-  /* Optional: Add custom styling here */
-  </style>
-  
+  </div>
+</template>
+
+<script>
+import { getProductbyCategories } from '@/api/Fetch/fetchProduct';
+import { onMounted, ref } from 'vue';
+
+export default {
+  name: "SpecialOffers",
+
+  setup() {
+    const url = "https://techbox.developimpact.net";
+    const products = ref();
+    onMounted(async () => {
+      const res = await getProductbyCategories("special")
+      products.value = res
+      console.log(res)
+    })
+
+    return {
+      products,
+      url
+    }
+  }
+};
+</script>
+
+<style scoped>
+/* Optional: Add custom styling here */
+</style>

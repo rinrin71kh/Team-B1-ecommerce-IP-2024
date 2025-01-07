@@ -1,9 +1,9 @@
 import { getAccessToken } from "../getAccessToken.js";
 
-export async function getProduct() {
+export async function getProductbyCategories(category: string) {
   
     const url =
-      `https://techbox.developimpact.net/o/c/products/`;
+      `https://techbox.developimpact.net/o/c/products/?filter=category%20eq%20%27${category}%27`;
   
     const accessToken = await getAccessToken();
   

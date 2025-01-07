@@ -27,20 +27,6 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: Content,
-          children: [
-            {
-              path: 'category',
-              name: 'category',
-              component: Component,
-              children: [
-                {
-                  path: ':categoryId',
-                  name: 'productsByCategory',
-                  component: Product,
-                }
-              ]
-            }
-          ]
         },
         {
           path: 'checkout',
@@ -76,7 +62,7 @@ const router = createRouter({
     {
       path: '/test',
       name: 'test',
-      component: AboutView,
+      component: Product_detail,
     },
   ],
 })

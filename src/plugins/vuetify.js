@@ -1,13 +1,22 @@
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 
-export default createVuetify({
-  // Add your Vuetify options here
-});
-
-export const vuetify = createVuetify({
+const vuetify = createVuetify({
+  components,
+  directives,
   theme: {
     defaultTheme: 'light',
-    //
+    themes: {
+      light: {
+        colors: {
+          primary: '#254061', // Use Tailwind's primary color
+          secondary: '#64748b',
+        },
+      },
+    },
   },
-})
+});
+
+export default vuetify;

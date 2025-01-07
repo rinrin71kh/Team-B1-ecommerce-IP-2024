@@ -9,6 +9,7 @@
 import { RouterView } from 'vue-router';
 import MyNav from './components/MyNav.vue';
 import Footer from './components/Footer.vue';
+import tab from './components/tab.vue';
 
 </script>
 <style>
