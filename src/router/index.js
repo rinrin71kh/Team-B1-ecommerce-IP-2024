@@ -12,6 +12,7 @@ import Product_detail from '@/components/resource/Product_detail.vue';
 import SpecialOffer from '@/components/resource/SpecialOffer.vue';
 import Product from '@/components/resource/Product.vue';
 import Component from '@/components/resource/Component.vue';
+import CategoryDetail from '@/components/resource/CategoryDetail.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -40,7 +41,13 @@ const router = createRouter({
           path: 'product/:id',
           name: 'productDetails',
           component: Product_detail,
-        }
+        },
+        {
+          path: 'category/:id',
+          name: 'categoryDetails',
+          component: CategoryDetail,
+        },
+        
       ]
     },
     {
@@ -62,7 +69,7 @@ const router = createRouter({
     {
       path: '/test',
       name: 'test',
-      component: Product_detail,
+      component: CategoryDetail,
     },
   ],
 })

@@ -46,7 +46,7 @@ export default {
     const products = ref();
     onMounted(async () => {
       const res = await getProductbyCategories("generallaptop")
-      products.value = res
+      products.value = res.slice(0,4)
       console.log(res)
     })
 

@@ -29,8 +29,8 @@
               <p class="text-gray-400 line-through text-lg ">
                 ${{ product.basePrice }}
               </p>
-              <p class="text-red-500 font-semibold text-2xl ">
-                ${{ product.basePrice - (product.basePrice * product.discountasPercentage / 100) }}
+              <p class="text-red-500 font-semibold text-3xl ">
+                ${{ Math.round(product.basePrice - (product.basePrice * product.discountasPercentage / 100)) }}
               </p>
             </div>
         </a>
