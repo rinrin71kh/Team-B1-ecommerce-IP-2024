@@ -87,6 +87,13 @@ export default defineComponent({
       try {
         if (password.value == repassword.value) {
           const user = await submitForm(email.value, password.value, lastName.value, firstName.value, phoneNumber.value)
+          if (user){
+            console.log(user)
+            errorMessage.value = 'Register successfully.';
+          } else {
+            errorMessage.value = 'Invalid email or password.';
+          }
+          
         } else {
           errorMessage.value = 'Passwords do not match.';
         }
