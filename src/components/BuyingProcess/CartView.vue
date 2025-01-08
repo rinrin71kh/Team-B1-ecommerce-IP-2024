@@ -4,8 +4,6 @@
       <div class="flex justify-between items-center p-6">
         <h1 class="text-2xl font-bold">Your shopping cart</h1>
         <div class="">
-
-
           <v-dialog v-model="dialog" max-width="320" persistent>
             <v-list class="py-2" color="primary" elevation="12" rounded="">
               <v-list-item prepend-icon="$vuetify-outline" title="Refreshing Application...">
@@ -32,7 +30,7 @@
                   @click="dialog = true" size="30"></v-btn></th>
               <th class="p-4 text-left">Product</th>
               <th class="p-4 text-center">Quantity</th>
-              <th class="p-4 text-right">Price</th>
+              <th class="p-4 text-right">Total Price</th>
             </tr>
           </thead>
           <tbody>
@@ -51,7 +49,8 @@
                 </div>
               </td>
               <td class="p-4 text-center">
-                <div class="flex items-center justify-center space-x-2">
+                <div class="flex items-center justify-center space-x-2 gap-5">
+                  <v-btn @click="DeleteItems(item.id)" size="30" color="red" icon="mdi-delete"></v-btn>
                   <div class="flex items-center space-x-2">
                     <button :disabled="QTYs[index] === 1" @click="Decrease(item.productDetails.id, index)"
                       class="w-7 h-7 bg-primary hover:bg-gray-600 rounded-md flex items-center justify-center">
@@ -80,14 +79,15 @@
             <div class="flex justify-betwee gap-4  items-center mb-2">
               <input :disabled="isDisabled" v-model="Code" type="text" placeholder="Apply Code"
                 class="w-full p-2 border border-gray-300 rounded-lg" />
-              <button @click="ApplyCode" :class="['rounded-xl text-white shadow-xl font-semibold bg-blue-400 text-sm  px-5', Btn]">Apply</button>
+              <button @click="ApplyCode"
+                :class="['rounded-xl text-white shadow-xl font-semibold bg-blue-400 text-sm  px-5', Btn]">Apply</button>
             </div>
             <div class="flex justify-between mb-2">
               <span>Discount</span>
               <span :class="['font-semibold', text]">{{ discountPercentage }}%</span>
             </div>
             <div class="flex justify-between mb-2">
-              <span>Shipping</span> 
+              <span>Shipping</span>
               <span class="font-semibold">Free</span>
             </div>
             <hr class="my-2" />
@@ -98,7 +98,8 @@
 
             <v-dialog v-model="dialog1" transition="dialog1-bottom-transition" fullscreen>
               <template v-slot:activator="{ props: activatorProps }">
-                <v-btn class="w-full mt-4" color="blue" :onclick="loadQRpay" text="Pay now" v-bind="activatorProps"></v-btn>
+                <v-btn class="w-full mt-4" color="blue" :onclick="loadQRpay" text="Pay now"
+                  v-bind="activatorProps"></v-btn>
               </template>
             </v-dialog>
           </div>
@@ -112,12 +113,12 @@
         <v-toolbar>
           <v-btn icon="mdi-close" @click="closeDialog1"></v-btn>
 
-          <v-toolbar-title>Settings</v-toolbar-title>
+          <v-toolbar-title>Checkout Process</v-toolbar-title>
 
           <v-spacer></v-spacer>
 
           <v-toolbar-items>
-            <v-btn text="Save" variant="text" @click="closeDialog1"></v-btn>
+            <v-btn text="Close" variant="text" @click="closeDialog1"></v-btn>
           </v-toolbar-items>
         </v-toolbar>
 
@@ -137,6 +138,7 @@ import { defineAsyncComponent } from 'vue';
 import QRpay from './QRpay.vue';
 import { sharedState } from '@/stores/cartStore';
 import { ApplyCoupon } from '@/api/payway/BakongPay';
+import { DeleteItemByID } from '@/api/Cart/DeleteItem';
 
 export default {
   data() {
@@ -166,10 +168,7 @@ export default {
   },
   watch: {
     async dialog(val) {
-      if (!val) return
-      if (await this.Initial()) {
-        this.dialog = false;
-      }
+      this.refresh(val)
     },
   },
   computed: {
@@ -192,6 +191,12 @@ export default {
     }
   },
   methods: {
+    async refresh(val) {
+      if (!val) return
+      if (await this.Initial()) {
+        this.dialog = false;
+      }
+    },
     async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
       this.loading = true;
       try {
@@ -255,7 +260,7 @@ export default {
         sharedState.QRpayComponent = defineAsyncComponent(() =>
           import('./QRpay.vue')
         )
-      }else{
+      } else {
         this.dialog1 = false
         alert("Select any items")
       }
@@ -276,6 +281,19 @@ export default {
         console.error('Error fetching cart data:', error);
       }
 
+    },
+    async DeleteItems(productId) {
+      this.dialog = true
+      try {
+        const check = await DeleteItemByID(productId)
+        this.refresh();
+        this.dialog()
+        if (check) {
+          await this.Initial()
+        }
+      } catch (error) {
+
+      }
     }
   },
   async mounted() {

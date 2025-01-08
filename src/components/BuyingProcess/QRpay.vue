@@ -15,7 +15,7 @@
                 <!-- Customizable content area -->
                 <div class="custom-content ">
                     <div class="flex justify-center items-center gap-12 m-12">
-                        <div class="left flex flex-col gap-6">
+                        <div class="left flex flex-col gap-6 justify-center items-center">
                             <div v-if="!success" class="flex items-center justify-center gap-12">
                                 <div class="flex flex-col gap-6">
                                     <h3 class="text-5xl font-">Payment amount</h3>
@@ -79,7 +79,6 @@
 import QRCode from "qrcode";
 import axios from "axios";
 import { ChangeBoughtStatus } from "@/api/Cart/ChangeStatus";
-import { sharedState } from "@/stores/cartStore";
 import router from "@/router";
 import { getBakongQR, getCurrentDateTime, sendTelegramMessage, updateCouponQTY } from "@/api/payway/BakongPay";
 import { ref } from "vue";
@@ -129,7 +128,7 @@ export default {
             
             this.md5 = result.md5;
 
-            // this.checkTransactionStatus();
+            this.checkTransactionStatus();
 
         },
         async checkTransactionStatus() {

@@ -30,6 +30,9 @@
       <!-- Cart -->
       <v-btn icon class="custom-btn" @click="dialog = true">
         <img src="/public/icon/shopping-cart.svg" alt="Cart" class="size-6" />
+        <div v-if="store.sharedValue != 0"  > 
+          <sup class="p-1 bg-red-500 text-white rounded-full ">{{store.sharedValue}}</sup>
+        </div>
       </v-btn>
 
       <!-- Cart Dialog -->
@@ -56,11 +59,13 @@
 <script>
 import router from '@/router';
 import Cart from './BuyingProcess/Cart.vue';
+import { useNotifyStore } from '@/stores/cartStore';
 
 export default {
   data() {
     return {
       dialog: false,
+      store : useNotifyStore(),
       search: '',
       cartItems: [
         { name: 'Product 1', price: 50, quantity: 1 },

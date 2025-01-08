@@ -67,9 +67,9 @@
         <!-- Add to Cart Button -->
         <div class="flex-grow">
           <v-btn
-            v-if="product.availableStatus?.key === 'available' && status"
+            v-if="product.availableStatus?.key === 'available' && status[product.id]"
             @click="addtoCart('Carts', product.id, 1, 'testinguserfid')"
-            class="w-full custom-btn"
+            class="w-full"
             variant="outlined"
             rounded="0"
             height="44"
@@ -78,7 +78,7 @@
           </v-btn>
 
           <v-btn
-            v-else-if="!status"
+            v-else-if="!status[product.id]"
             disabled
             class="w-full custom-btn"
             variant="outlined"
@@ -106,6 +106,7 @@
 import { ref, onMounted } from "vue";
 import { getProductbyCategories } from "@/api/Fetch/fetchProduct";
 import { AddToCart } from "@/api/Cart/AddToCart";
+import { useNotifyStore } from "@/stores/cartStore";
 
 export default {
   props: {
@@ -124,6 +125,7 @@ export default {
     const url = "https://techbox.developimpact.net";
     const products = ref(null);
     const status = ref({});
+    const sharedStae = useNotifyStore()
 
     onMounted(async () => {
       try {
@@ -142,9 +144,9 @@ export default {
 
     const addtoCart = async (cartstatus, productid, qty, userfid) => {
       status.value[productid] = false;
-
       try {
         await AddToCart(cartstatus, productid, qty, userfid);
+        sharedStae.increment()
       } catch (error) {
         console.log("Error adding to cart:", error.message);
       } finally {
