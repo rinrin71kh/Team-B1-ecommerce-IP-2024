@@ -2,8 +2,8 @@
   <div class="p-6 bg-gray-50">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-xl font-bold">Laptop Offer</h2>
-      <a href="#" class="text-blue-500 hover:underline text-sm flex items-center">
-        View all &nbsp; <span class="material-icons">chevron_right</span>
+      <a href="/category/generallaptop" class="text-blue-500 hover:underline text-sm flex items-center">
+        View all <v-icon icon="mdi-chevron-right"></v-icon>
       </a>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

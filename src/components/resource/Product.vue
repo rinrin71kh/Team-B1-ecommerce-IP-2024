@@ -32,7 +32,7 @@
               v-if="product.discountasPercentage"
               class="line-through text-gray-400 text-base"
             >
-              ${{ product.basePrice }}
+              ${{ formatPrice(product.basePrice) }}
             </p>
             <p
               v-if="product.discountasPercentage"
@@ -40,14 +40,14 @@
             >
               $
               {{
-                Math.round(
+                formatPrice(Math.round(
                   product.basePrice -
                     (product.basePrice * product.discountasPercentage) / 100
-                )
+                ))
               }}
             </p>
             <p v-else class="text-red-600 font-bold text-xl">
-              ${{ product.basePrice }}
+              ${{ formatPrice(product.basePrice) }}
             </p>
           </div>
         </div>
@@ -107,6 +107,7 @@ import { ref, onMounted } from "vue";
 import { getProductbyCategories } from "@/api/Fetch/fetchProduct";
 import { AddToCart } from "@/api/Cart/AddToCart";
 import { useNotifyStore } from "@/stores/cartStore";
+import { formatPrice } from "@/util";
 
 export default {
   props: {
@@ -116,6 +117,7 @@ export default {
     },
   },
   methods: {
+    formatPrice,
     addtoCart(cartstatus, productid, qty, userfid) {
       this.$emit("add-to-cart", cartstatus, productid, qty, userfid);
     },

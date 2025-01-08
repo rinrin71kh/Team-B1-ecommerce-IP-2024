@@ -1,5 +1,5 @@
 <template>
-    <div class="px-16 py-8 max-lg:px-4">
+    <div class="px-6 md:px-16 py-8 max-lg:px-16">
         <!-- Breadcrumb -->
         <div class="text-sm text-gray-500 mb-4">
             <a href="/">Home</a> &gt; <span>Products</span> &gt; <span>Laptop</span> &gt;
@@ -50,8 +50,8 @@
                 </div>
 
                 <!-- Product List -->
-                <div class="md:px-16 px-4 py-4 bg-gray-50">
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="md:px-16 bg-gray-50">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                         <div
                             v-for="(product, index) in sortedProducts"
                             :key="index"

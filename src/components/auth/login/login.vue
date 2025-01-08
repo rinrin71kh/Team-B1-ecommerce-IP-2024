@@ -119,11 +119,10 @@ export default defineComponent({
       try {        
         errorMessage.value = ''
         const user = await isLogin(email.value,password.value);       
+        console.log(user);  
         if(user){
-          // AuthService.login(user);
-          console.log(s)
           localStorage.setItem('authToken', user);
-          router.push({ name: 'home' });
+          router.push('/');
         }else{
           errorMessage.value = 'Unknown email or password';
         }

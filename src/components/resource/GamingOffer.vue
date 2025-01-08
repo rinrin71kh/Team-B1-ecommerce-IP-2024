@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-3xl font-bold">Gaming Offer</h2>
       <a href="/category/gaminggear" class="text-blue-500 hover:underline text-sm flex items-center">
-        View all &nbsp; <span class="material-icons">chevron_right</span>
+        View all <v-icon icon="mdi-chevron-right"></v-icon>
       </a>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -22,13 +22,13 @@
           </div>
             <div class="flex gap-4 justify-start items-center p-4">
               <p v-if="product.discountasPercentage" class="line-through text-gray-400 text-lg">
-                ${{ product.basePrice }}
+                ${{ formatPrice(product.basePrice) }}
               </p>
               <p v-if="product.discountasPercentage" class="text-red-600 font-semibold text-3xl">
-                ${{ Math.round(product.basePrice - (product.basePrice * product.discountasPercentage / 100)) }}
+                ${{ formatPrice(Math.round(product.basePrice - (product.basePrice * product.discountasPercentage / 100))) }}
               </p>
               <p v-else class="text-red-600 font-semibold text-3xl">
-                ${{ product.basePrice }}
+                ${{ formatPrice(product.basePrice) }}
               </p>
             </div>
         </a>
@@ -39,10 +39,14 @@
 
 <script>
 import { getProductbyCategories } from '@/api/Fetch/fetchProduct';
+import { formatPrice } from '@/util';
 import { onMounted, ref } from 'vue';
 
 export default {
   name: "SpecialOffers",
+  methods:{
+    formatPrice
+  },
 
   setup() {
     const url = "https://techbox.developimpact.net";

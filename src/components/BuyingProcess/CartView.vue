@@ -22,8 +22,8 @@
           </v-dialog>
         </div>
       </div>
-      <div class="p-6 flex gap-4 items-start">
-        <table class="w-full border-collapse border border-gray-300">
+      <div class="p-6 flex gap-4 items-center justify-center md:items-start flex-col md:flex-row">
+        <v-table class="w-full border-collapse border border-gray-300">
           <thead class="bg-gray-200">
             <tr>
               <th><v-btn :disabled="dialog" color="primary" icon="mdi-refresh" text="Start loading"
@@ -43,13 +43,13 @@
                   <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
                     class="w-16 h-16 object-cover mr-4" />
                   <div>
-                    <h2 class="font-semibold">{{ item.productDetails.productname }}</h2>
+                    <h2 class="font-semibold text-lg">{{ item.productDetails.productname }}</h2>
                     <p class="text-sm text-gray-500">{{ item.productDetails.proDescription }}</p>
                   </div>
                 </div>
               </td>
               <td class="p-4 text-center">
-                <div class="flex items-center justify-center space-x-2 gap-5">
+                <div class="flex items-center justify-center space-x-2 gap-1 md:gap-5">
                   <v-btn @click="DeleteItems(item.id)" size="30" color="red" icon="mdi-delete"></v-btn>
                   <div class="flex items-center space-x-2">
                     <button :disabled="QTYs[index] === 1" @click="Decrease(item.productDetails.id, index)"
@@ -64,17 +64,17 @@
                   </div>
                 </div>
               </td>
-              <td class="px-4 w-1/6 text-right font-semibold">
-                $ {{ Price[index] }}
+              <td class="px-4 w-1/6 text-right font-semibold text-danger-500 text-lg whitespace-nowrap">
+                $ {{ formatPrice(Price[index]) }}
               </td>
             </tr>
           </tbody>
-        </table>
-        <div class="flex justify-between mt-6">
+        </v-table>
+        <div class="flex justify-center items-center mt-6">
           <div class="w-64 bg-gray-50 p-4 rounded-lg shadow">
             <div class="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span class="font-semibold">$ {{ subtotal }}</span>
+              <span class="font-semibold">$ {{ formatPrice(subtotal) }}</span>
             </div>
             <div class="flex justify-betwee gap-4  items-center mb-2">
               <input :disabled="isDisabled" v-model="Code" type="text" placeholder="Apply Code"
@@ -93,7 +93,7 @@
             <hr class="my-2" />
             <div class="flex justify-between">
               <span class="font-bold">Grand Total</span>
-              <span class="font-bold">$ {{ Total }}</span>
+              <span class="font-bold">$ {{ formatPrice(Total) }}</span>
             </div>
 
             <v-dialog v-model="dialog1" transition="dialog1-bottom-transition" fullscreen>
@@ -124,7 +124,6 @@
 
         <component v-if="sharedState.QRpayComponent" :is="sharedState.QRpayComponent" :amountInKHR="GrandTotal"
           :CouponID="check.id" :CouponQTY="check.qty" :itemsID="itemsID" />
-
       </v-card>
     </v-dialog>
   </div>
@@ -139,6 +138,7 @@ import QRpay from './QRpay.vue';
 import { sharedState } from '@/stores/cartStore';
 import { ApplyCoupon } from '@/api/payway/BakongPay';
 import { DeleteItemByID } from '@/api/Cart/DeleteItem';
+import { formatPrice } from '@/util';
 
 export default {
   data() {
@@ -191,6 +191,7 @@ export default {
     }
   },
   methods: {
+    formatPrice,
     async refresh(val) {
       if (!val) return
       if (await this.Initial()) {

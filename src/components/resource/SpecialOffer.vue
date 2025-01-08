@@ -27,10 +27,10 @@
           </div>
             <div class="flex gap-2 md:gap-4 py-4 justify-start items-center">
               <p class="text-gray-400 line-through text-lg ">
-                ${{ product.basePrice }}
+                ${{ formatPrice(product.basePrice) }}
               </p>
               <p class="text-red-500 font-semibold text-3xl ">
-                ${{ Math.round(product.basePrice - (product.basePrice * product.discountasPercentage / 100)) }}
+                ${{ formatPrice(Math.round(product.basePrice - (product.basePrice * product.discountasPercentage / 100))) }}
               </p>
             </div>
         </a>
@@ -41,6 +41,7 @@
 
 <script>
 import { getProductbyCategories } from '@/api/Fetch/fetchProduct';
+import { formatPrice } from '@/util';
 import { onMounted, ref } from 'vue';
 
 export default {
@@ -59,6 +60,9 @@ export default {
       products,
       url
     }
+  },
+  methods:{
+    formatPrice
   }
 };
 </script>
