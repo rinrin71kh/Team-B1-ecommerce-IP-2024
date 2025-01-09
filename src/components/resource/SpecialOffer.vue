@@ -21,7 +21,7 @@
             <h3 class="text-xl font-semibold text-gray-800 mb-1 ">
               {{ product.productname }}
             </h3>
-            <p class="text-gray-500 text-sm mb-3">
+            <p class="text-gray-500 text-sm mb-3 line-clamp-2">
               {{ product.proDescription }}
             </p>
           </div>

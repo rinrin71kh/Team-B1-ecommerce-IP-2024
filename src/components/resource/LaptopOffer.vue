@@ -1,8 +1,8 @@
 <template>
   <div class="p-6 bg-gray-50">
     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-bold">Laptop Offer</h2>
-      <a href="/category/generallaptop" class="text-blue-500 hover:underline text-sm flex items-center">
+      <h2 class="text-3xl font-bold">Laptop Offer</h2>
+      <a href="/category/gaminggear" class="text-blue-500 hover:underline text-sm flex items-center">
         View all <v-icon icon="mdi-chevron-right"></v-icon>
       </a>
     </div>
@@ -21,11 +21,14 @@
               </h3>
           </div>
             <div class="flex gap-4 justify-start items-center p-4">
-              <p class="text-gray-400 line-through text-lg ">
-                ${{ product.basePrice }}
+              <p v-if="product.discountasPercentage" class="line-through text-gray-400 text-lg">
+                ${{ formatPrice(product.basePrice) }}
               </p>
-              <p class="text-red-600 font-semibold text-2xl md:text-3xl ">
-                ${{ product.basePrice - (product.basePrice * product.discountasPercentage / 100) }}
+              <p v-if="product.discountasPercentage" class="text-red-600 font-semibold text-3xl">
+                ${{ formatPrice(Math.round(product.basePrice - (product.basePrice * product.discountasPercentage / 100))) }}
+              </p>
+              <p v-else class="text-red-600 font-semibold text-3xl">
+                ${{ formatPrice(product.basePrice) }}
               </p>
             </div>
         </a>
@@ -36,16 +39,20 @@
 
 <script>
 import { getProductbyCategories } from '@/api/Fetch/fetchProduct';
+import { formatPrice } from '@/util';
 import { onMounted, ref } from 'vue';
 
 export default {
-  name: "LaptopOffer",
+  name: "SpecialOffers",
+  methods:{
+    formatPrice
+  },
 
   setup() {
     const url = "https://techbox.developimpact.net";
     const products = ref();
     onMounted(async () => {
-      const res = await getProductbyCategories("generallaptop")
+      const res = await getProductbyCategories("laptop")
       products.value = res.slice(0,4)
       console.log(res)
     })

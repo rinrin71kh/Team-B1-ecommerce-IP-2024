@@ -1,5 +1,6 @@
 <template>
-  <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+  <div v-if="!products">Loading...</div>
+  <div v-else class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
     <div
       v-for="(product, index) in products"
       :key="product.id"
