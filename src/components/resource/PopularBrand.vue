@@ -1,5 +1,5 @@
 <template>
-    <div class="md:px-16 px-4">
+    <div class="md:px-16  mx-[100px] max-md:mx-4 max-lg:mx-8 ">
       <h2 class="text-xl md:text-2xl font-bold mb-4">Popular Brands</h2>
       <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 md:gap-4">
         <div

@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 md:px-12 max-md:px-4 max-lg:px-8 py-14">
+  <div class="  max-md:px-4 max-lg:px-8 py-14 mx-[100px] ">
     <!-- Navigation Tabs -->
     <v-card>
       <v-tabs v-model="tab"
