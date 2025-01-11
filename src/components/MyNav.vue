@@ -62,7 +62,9 @@
 
       <!-- User -->
       <v-btn icon class="custom-btn">
-        <img src="/public/icon/user-circle.svg" alt="User" class="size-6" />
+        <a href="/logout">
+          <v-icon icon="mdi-logout"></v-icon>
+        </a>
       </v-btn>
 
       <!-- Cart -->

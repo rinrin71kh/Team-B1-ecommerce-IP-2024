@@ -1,7 +1,7 @@
 <template>
     <div v-if="laoding" class="flex justify-center items-center w-full">
       <!-- Loading -->
-      <!-- <v-progress-linear color="blue-darken-3" model-value="20" indeterminate></v-progress-linear> -->
+      <v-progress-linear color="cyan" indeterminate></v-progress-linear>
     </div>
     <div v-if="cartItems.length != 0" v-for="(item, index) in cartItems" :key="index" class="flex items-center mb-4">
       <img :src="url + item.productDetails?.proImage?.link.href" alt="Product Image"
@@ -36,31 +36,12 @@
       </div>
     </div>
     <div v-else-if="cartItems.length == 0 && !laoding">Your Cart is empty</div>
-    <!-- <div class="pt-4">
-      <div class="flex justify-between text-lg font-semibold">
-        <span>Subtotal</span>
-        <span>$ {{ subtotal }}</span>
-      </div>
-      <div class="flex justify-between text-lg font-semibold">
-        <span>Shipping</span>
-        <span>Free</span>
-      </div>
-      <div class="flex justify-between text-lg font-bold border-t py-4">
-        <span>Total</span>
-        <span>$ {{ subtotal }}</span>
-      </div>
-    </div> -->
-    <!-- <div class="mt-4 flex justify-center gap-3">
-      <a href="/checkout" class="px-4 py-2 bg-primary w-full hover:bg-gray-600 text-center text-white">View
-        Cart</a>
-      <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 text-center">History</a>
-    </div> -->
 </template>
 
 <script>
 import { AddToCart, DecreaseQTY } from '@/api/Cart/AddToCart';
 import { getCart } from '@/api/Cart/getCart';
-import { onMounted, ref, toRaw } from 'vue';
+import { ref, toRaw } from 'vue';
 
 export default {
   data() {

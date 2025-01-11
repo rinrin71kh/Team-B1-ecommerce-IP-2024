@@ -1,7 +1,7 @@
 <template>
   <div
-    class="h-screen w-screen flex items-center justify-center bg-cover bg-center bg-red-400"
-    style="background-image: url('/Signin.jpg');"
+    class="h-screen w-screen flex items-center justify-center bg-cover bg-center"
+    style="background-image: url('/images/Signin.jpg');"
   >
     <div class="bg-white shadow-lg  p-8 w-[400px]">
       <div class=" flex  text-center items-center justify-center mb-4">
@@ -123,11 +123,9 @@ export default defineComponent({
         if(user){
           localStorage.setItem('authToken', user);
           router.push('/');
-        }else{
-          errorMessage.value = 'Unknown email or password';
         }
       } catch (error) {
-        errorMessage.value = 'Something went wrong';
+        errorMessage.value = 'Invalid credentials';
       } finally{
         loading.value = false;
       }

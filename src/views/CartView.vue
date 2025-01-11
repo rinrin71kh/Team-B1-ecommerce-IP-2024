@@ -22,8 +22,10 @@
           </v-dialog>
         </div>
       </div>
+
       <div class="p-6 flex gap-4 items-center justify-center md:items-start flex-col md:flex-row">
         <v-table class="w-full border-collapse border border-gray-300">
+
           <thead class="bg-gray-200">
             <tr>
               <th><v-btn :disabled="dialog" color="primary" icon="mdi-refresh" text="Start loading"
@@ -33,7 +35,21 @@
               <th class="p-4 text-right">Total Price</th>
             </tr>
           </thead>
-          <tbody>
+          <template v-if="loading && cartItems.length > 0" class="">
+            <tr>
+              <td colspan="4" class="text-center">
+                <v-progress-linear color="cyan" indeterminate></v-progress-linear>
+              </td>
+            </tr>
+          </template>
+          <template v-if="loading && cartItems.length === 0">
+            <tr>
+              <td colspan="4" class="text-center">
+                <v-progress-linear color="cyan" indeterminate></v-progress-linear>
+              </td>
+            </tr>
+          </template>
+          <tbody v-else>
             <tr v-for="(item, index) in cartItems" :key="index" class="border-b border-gray-300">
               <td class="p-4 text-center">
                 <input type="checkbox" v-model="item.selected" @change="updateCartSummary(item)" />
@@ -134,7 +150,7 @@ import { AddToCart, DecreaseQTY } from '@/api/Cart/AddToCart';
 import { getCart } from '@/api/Cart/getCart';
 import { ref, toRaw } from 'vue';
 import { defineAsyncComponent } from 'vue';
-import QRpay from './QRpay.vue';
+import QRpay from '@/components/BuyingProcess/QRpay.vue';
 import { sharedState } from '@/stores/cartStore';
 import { ApplyCoupon } from '@/api/payway/BakongPay';
 import { DeleteItemByID } from '@/api/Cart/DeleteItem';
@@ -168,8 +184,11 @@ export default {
   },
   watch: {
     async dialog(val) {
+      console.log(val);
+
       this.refresh(val)
     },
+
   },
   computed: {
     subtotal() {
@@ -259,7 +278,7 @@ export default {
       this.GrandTotal = this.subtotal;
       if (!sharedState.QRpayComponent && this.GrandTotal > 0) {
         sharedState.QRpayComponent = defineAsyncComponent(() =>
-          import('./QRpay.vue')
+          import('@/components/BuyingProcess/QRpay.vue')
         )
       } else {
         this.dialog1 = false
