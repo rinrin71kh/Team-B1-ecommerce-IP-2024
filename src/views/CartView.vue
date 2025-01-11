@@ -218,7 +218,7 @@ export default {
   },
   methods: {
     goHome() {
-      router.push('/');
+      router.push('/category/Macbook');
     },
     formatPrice,
     async refresh(val) {
