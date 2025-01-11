@@ -123,6 +123,8 @@ export default defineComponent({
         if(user){
           localStorage.setItem('authToken', user);
           router.push('/');
+        }else{
+          errorMessage.value = 'Unknown email or password';
         }
       } catch (error) {
         errorMessage.value = 'Invalid credentials';

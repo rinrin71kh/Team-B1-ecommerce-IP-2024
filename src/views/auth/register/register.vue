@@ -69,6 +69,7 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import { submitForm } from '@/api/login/register';
+import router from '@/router';
 
 export default defineComponent({
   name: 'Login',
@@ -90,6 +91,7 @@ export default defineComponent({
           if (user){
             console.log(user)
             errorMessage.value = 'Register successfully.';
+            router.push('/login')
           } else {
             errorMessage.value = 'Invalid email or password.';
           }

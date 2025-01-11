@@ -30,22 +30,26 @@
             <tr>
               <th><v-btn :disabled="dialog" color="primary" icon="mdi-refresh" text="Start loading"
                   @click="dialog = true" size="30"></v-btn></th>
-              <th class="p-4 text-left">Product</th>
+              <th class="p-4 text-left">Product Image</th>
+              <th class="p-4 text-center">Product Name</th>
+              <th class="p-4 text-right">Remove</th>
               <th class="p-4 text-center">Quantity</th>
               <th class="p-4 text-right">Total Price</th>
             </tr>
           </thead>
-          <template v-if="loading && cartItems.length > 0" class="">
+          <template v-if="loading">
             <tr>
-              <td colspan="4" class="text-center">
+              <td colspan="6" class="text-center">
                 <v-progress-linear color="cyan" indeterminate></v-progress-linear>
               </td>
             </tr>
           </template>
-          <template v-if="loading && cartItems.length === 0">
+          <template v-else-if="!loading && cartItems.length == 0">
             <tr>
-              <td colspan="4" class="text-center">
-                <v-progress-linear color="cyan" indeterminate></v-progress-linear>
+              <td colspan="6" class="text-center p-4">
+              Your Cart is empty
+
+                <v-btn @click="goHome" color="primary" size="35" icon="mdi-store-plus"></v-btn>
               </td>
             </tr>
           </template>
@@ -55,18 +59,20 @@
                 <input type="checkbox" v-model="item.selected" @change="updateCartSummary(item)" />
               </td>
               <td class="p-4">
-                <div class="flex items-center">
-                  <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
+                <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
                     class="w-16 h-16 object-cover mr-4" />
-                  <div>
-                    <h2 class="font-semibold text-lg">{{ item.productDetails.productname }}</h2>
-                    <p class="text-sm text-gray-500">{{ item.productDetails.proDescription }}</p>
-                  </div>
+              </td>
+              <td class="p-4">
+                <div class="flex flex-col">
+                    <h2 class="font-semibold text-lg line-clamp-2">{{ item.productDetails.productname }}</h2>
+                    <p class="text-sm text-gray-500 line-clamp-2">{{ item.productDetails.proDescription }}</p>
                 </div>
+              </td>
+              <td class="p-4">
+                <v-btn @click="DeleteItems(item.id)" size="30" color="red" icon="mdi-delete"></v-btn>
               </td>
               <td class="p-4 text-center">
                 <div class="flex items-center justify-center space-x-2 gap-1 md:gap-5">
-                  <v-btn @click="DeleteItems(item.id)" size="30" color="red" icon="mdi-delete"></v-btn>
                   <div class="flex items-center space-x-2">
                     <button :disabled="QTYs[index] === 1" @click="Decrease(item.productDetails.id, index)"
                       class="w-7 h-7 bg-primary hover:bg-gray-600 rounded-md flex items-center justify-center">
@@ -155,6 +161,7 @@ import { sharedState } from '@/stores/cartStore';
 import { ApplyCoupon } from '@/api/payway/BakongPay';
 import { DeleteItemByID } from '@/api/Cart/DeleteItem';
 import { formatPrice } from '@/util';
+import router from '@/router';
 
 export default {
   data() {
@@ -210,6 +217,9 @@ export default {
     }
   },
   methods: {
+    goHome() {
+      router.push('/');
+    },
     formatPrice,
     async refresh(val) {
       if (!val) return

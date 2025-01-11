@@ -46,6 +46,6 @@ import { getAccessToken } from "../getAccessToken.js";
   }
 
   export async function isLogin(email:string,password: string) {
-    const user = await FetchUser(email, password);        
+    const user = await FetchUser(email, password);            
     return await validatePassword(password,user[0].password);    
   }
