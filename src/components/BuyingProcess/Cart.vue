@@ -5,7 +5,7 @@
       <!-- <v-progress-linear color="blue-darken-3" model-value="20" indeterminate></v-progress-linear> -->
     </div>
     <div v-if="cartItems.length != 0" v-for="(item, index) in cartItems" :key="index" class="flex items-center mb-4">
-      <img :src="url + item.productDetails.proImage?.link.href" alt="Product Image"
+      <img :src="url + item.productDetails?.proImage?.link.href" alt="Product Image"
         class="w-16 h-16 object-cover mr-4" />
       <div class="flex-1">
         <h3 class="text-lg font-semibold">{{ item.productDetails.productname }}</h3>
@@ -37,7 +37,7 @@
       </div>
     </div>
     <div v-else-if="cartItems.length == 0 && !laoding">Empty</div>
-    <div class="pt-4">
+    <!-- <div class="pt-4">
       <div class="flex justify-between text-lg font-semibold">
         <span>Subtotal</span>
         <span>$ {{ subtotal }}</span>
@@ -50,11 +50,11 @@
         <span>Total</span>
         <span>$ {{ subtotal }}</span>
       </div>
-    </div>
+    </div> -->
     <div class="mt-4 flex justify-center gap-3">
       <a href="/checkout" class="px-4 py-2 bg-primary w-full hover:bg-gray-600 text-center text-white">View
         Cart</a>
-      <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 text-center">Checkout</a>
+      <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 text-center">History</a>
     </div>
   </div>
 </template>
@@ -84,8 +84,10 @@ export default {
     async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
       this.laoding = true;
       try {
-        await AddToCart(cartStatus, productid, qty, userfid);
-        this.QTYs[index] += 1;
+        const check = await AddToCart(cartStatus, productid, qty, userfid);
+        if(check){
+          this.QTYs[index] += 1;
+        }
       } catch (error) {
         console.error('Error in IncreaseQTY:', error);
       } finally {
@@ -96,10 +98,10 @@ export default {
     async Decrease(cartStatus, productid, qty, userfid, index) {
       this.laoding = true;
       try {
-        await DecreaseQTY(cartStatus, productid, qty, userfid);
-        if (this.QTYs[index] > 1) {
+        const check = await DecreaseQTY(productid);
+        if(check){
           this.QTYs[index] -= 1;
-        }
+        }     
       } catch (error) {
         console.error('Error decreasing quantity:', error);
       } finally {

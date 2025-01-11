@@ -24,7 +24,7 @@
                                         <button>Pay with Credit Card</button>
                                     </div>
                                     <div v-if="loading" class="flex relative gap-4 justify-center items-center w-full">
-                                    <h2>Checking Transaction Status...</h2>
+                                        <h2>Checking Transaction Status...</h2>
                                         <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-black"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
@@ -82,7 +82,7 @@ import axios from "axios";
 import { ChangeBoughtStatus } from "@/api/Cart/ChangeStatus";
 import { sharedState } from "@/stores/cartStore";
 import router from "@/router";
-import { getBakongQR, getCurrentDateTime, sendTelegramMessage } from "@/api/payway/BakongPay";
+import { getBakongQR, getCurrentDateTime, sendTelegramMessage, updateCouponQTY } from "@/api/payway/BakongPay";
 import { ref } from "vue";
 
 export default {
@@ -107,6 +107,14 @@ export default {
         QRpayComponent: {
             type: String,
             required: true,
+        },
+        CouponID:{
+            type: String,
+            required: true,
+        },
+        CouponQTY:{
+            type: Number,
+            required: true,
         }
     },
     methods: {
@@ -119,7 +127,7 @@ export default {
                     console.error("Error generating QR code:", error);
                 }
             });
-
+            
             this.md5 = result.md5;
 
             this.checkTransactionStatus();
@@ -146,11 +154,13 @@ export default {
                     this.response = res.data;
                     this.itemsID.map((item) => ChangeBoughtStatus(item))
                     console.log(res);
-                    
+
                     const date = getCurrentDateTime();
                     await sendTelegramMessage(date + "- Order successfully Purchase by testing@user: " + this.amountInKHR + "$. " +
-                    "From account: " + res.data.data.fromAccountId + " to " + res.data.data.toAccountId + " transactionRef: " + res.data.data.externalRef + "."
-                )
+                        "From account: " + res.data.data.fromAccountId + " to " + res.data.data.toAccountId + " transactionRef: " + res.data.data.externalRef + "."
+                    )
+                    
+                    await updateCouponQTY(this.CouponID, this.CouponQTY)
                     setTimeout(() => sharedState.QRpayComponent = null,
                         3000)
                     setTimeout(() => router.push("/"),

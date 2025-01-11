@@ -5,35 +5,51 @@ import Login from '@/components/auth/login/login.vue';
 import Register from '@/components/auth/register/register.vue';
 import { AuthService } from '@/auth';
 import AboutView from '../views/AboutView.vue';
-import Landing from '@/components/resource/landing.vue';
 import Checkout from '@/components/BuyingProcess/Checkout.vue';
+import MainLayout from '@/components/MainLayout.vue';
+import Content from '@/components/resource/Content.vue';
+import Product_detail from '@/components/resource/Product_detail.vue';
+import SpecialOffer from '@/components/resource/SpecialOffer.vue';
+import Product from '@/components/resource/Product.vue';
+import Component from '@/components/resource/Component.vue';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Landing,
+      component: MainLayout,
       meta: {
         requiresAuth: true,
       },
-    },
-    {
-      path: '/checkout',
-      name: 'cart',
-      component: CartView,
-      meta: {
-        requiresAuth: true,
-      },
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: Content,
+        },
+        {
+          path: 'checkout',
+          name: 'cart',
+          component: CartView,
+          meta: {
+            requiresAuth: true,
+          }
+        },
+        {
+          path: 'product/:id',
+          name: 'productDetails',
+          component: Product_detail,
+        }
+      ]
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
-      meta: {
-        requiresGuest: true,
-      }
+      // meta: {
+      //   requiresGuest: true,
+      // }
     },
     {
       path: '/register',
@@ -45,8 +61,8 @@ const router = createRouter({
     },
     {
       path: '/test',
-      name: 't',
-      component: AboutView,
+      name: 'test',
+      component: Product_detail,
     },
   ],
 })

@@ -1,11 +1,7 @@
 <template>
 
   <div class="bg-slate-100">
-    <MyNav/>
-    <tab/>
-    
     <RouterView class="h-screen"/>
-     
   </div>
 </template>
 
@@ -16,5 +12,9 @@ import Footer from './components/Footer.vue';
 import tab from './components/tab.vue';
 
 </script>
-
-
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
+body {
+  font-family: 'Kantumruy Pro', sans-serif;
+}
+</style>
