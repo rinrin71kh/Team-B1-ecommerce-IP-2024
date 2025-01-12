@@ -8,6 +8,7 @@ import Admin from '@/components/Admin/admin.vue';
 import Dashboard from '@/components/Admin/1.dashboard/dashboard.vue';
 import User from '@/components/Admin/4.user/user.vue';
 import Account from '@/components/Admin/5.account/account.vue';
+import EditProfile from '@/components/Admin/5.account/editProfile.vue'; 
 import Type from '@/components/Admin/3.product/2.type/type.vue';
 import All from '@/components/Admin/3.product/1.all/all.vue';
 import Sale from '@/components/Admin/2.sale/sale.vue';
@@ -43,7 +44,6 @@ const router = createRouter({
       name: 'register',
       component: Register,
     },
-
     {
       path: '/admin',
       name: 'admin',
@@ -79,7 +79,11 @@ const router = createRouter({
           name: 'account',
           component: Account,
         },
-       
+        {
+          path: 'account/edit-profile', 
+          name: 'edit-profile',
+          component: EditProfile,
+        },
       ],
     },
   ],
