@@ -59,6 +59,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+    
 
       <!-- User -->
       <v-btn icon class="custom-btn">
@@ -74,6 +75,13 @@
           <sup class="p-1 bg-red-500 text-white rounded-full ">{{ store.sharedValue }}</sup>
         </div>
       </v-btn>
+
+       <!-- order history -->
+        <v-btn icon class="custom-btn">
+          <router-link to="/order-history">
+            <img src="/public/icon/receipt.svg" alt="Order History" class="size-6" />
+          </router-link>
+        </v-btn>
 
       <!-- Cart Dialog -->
       <v-dialog v-model="dialog" max-width="500">

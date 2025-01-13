@@ -10,6 +10,7 @@ import Content from '@/views/Content.vue';
 import Product_detail from '@/views/Product_detail.vue';
 import CategoryDetail from '@/views/CategoryDetail.vue';
 import History from '@/views/History.vue';
+import OrderHistory from '@/views/OrderHistory.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -49,6 +50,14 @@ const router = createRouter({
           path: 'history',
           name: 'history',
           component: History, 
+        },
+        {
+          path: 'order-history',
+          name: 'orderHistory',
+          component: OrderHistory,
+          meta: {
+            requiresAuth: true,
+          }
         }
         
       ]
@@ -95,6 +104,7 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
 
 
 
