@@ -109,6 +109,7 @@ import { getProductbyCategories } from "@/api/Fetch/fetchProduct";
 import { AddToCart } from "@/api/Cart/AddToCart";
 import { useNotifyStore } from "@/stores/cartStore";
 import { formatPrice } from "@/util";
+import { getUser } from "@/api/getAccessToken";
 
 export default {
   props: {
@@ -119,9 +120,6 @@ export default {
   },
   methods: {
     formatPrice,
-    addtoCart(cartstatus, productid, qty, userfid) {
-      this.$emit("add-to-cart", cartstatus, productid, qty, userfid);
-    },
   },
   setup(props) {
 
@@ -148,7 +146,10 @@ export default {
     const addtoCart = async (cartstatus, productid, qty, userfid) => {
       status.value[productid] = false;
       try {
-        await AddToCart(cartstatus, productid, qty, userfid);
+        const user = getUser()
+        console.log(user);
+        
+        await AddToCart(cartstatus, productid, qty, user);
         sharedStae.increment()
       } catch (error) {
         console.log("Error adding to cart:", error.message);

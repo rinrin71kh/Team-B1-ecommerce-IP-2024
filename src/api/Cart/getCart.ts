@@ -1,7 +1,7 @@
 import { getAccessToken } from "../getAccessToken.js";
 
-export async function getCart(userid: string): Promise<any[]> {
-  const url = `https://techbox.developimpact.net/o/c/carts/?filter=cartstatus%20eq%20%20%27Carts%27%20and%20userfid%20eq%20%27${userid}%27`
+export async function getCart(userid: string,cartStatus:string): Promise<any[]> {
+  const url = `https://techbox.developimpact.net/o/c/carts/?filter=cartstatus%20eq%20%20%27${cartStatus}%27%20and%20userfid%20eq%20%27${userid}%27`
   
   const accessToken = await getAccessToken();
 

@@ -18,13 +18,8 @@
                     <ul class="space-y-3">
                         <li v-for="(category, index) in categories" :key="category.id">
                             <label>
-                                <input
-                                    type="radio"
-                                    class="mr-2"
-                                    :value="category.id"
-                                    v-model="selectedCategory"
-                                    @change="fetchProductsByCategory(index)"
-                                />
+                                <input type="radio" class="mr-2" :value="category.id" v-model="selectedCategory"
+                                    @change="fetchProductsByCategory(index)" />
                                 {{ category.name }}
                             </label>
                         </li>
@@ -38,11 +33,7 @@
                 <!-- Sort Options -->
                 <div class="flex justify-end items-center mb-6 border-b-2 py-2">
                     <label for="sort" class="mr-2 text-sm font-medium">Sort by</label>
-                    <select
-                        id="sort"
-                        class="border border-gray-300 rounded px-3 py-1 text-sm"
-                        v-model="sortOption"
-                    >
+                    <select id="sort" class="border border-gray-300 rounded px-3 py-1 text-sm" v-model="sortOption">
                         <option value="default">Default</option>
                         <option value="low-to-high">Price: Low to High</option>
                         <option value="high-to-low">Price: High to Low</option>
@@ -50,21 +41,18 @@
                 </div>
 
                 <!-- Product List -->
-                <div class="md:px-16 bg-gray-50">
+                <div v-if="loading" class="flex items-start justify-center h-screen">
+                    <v-progress-linear color="cyan" indeterminate></v-progress-linear>
+                </div>
+                <div v-else class="md:px-16">
                     <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <div
-                            v-for="(product, index) in sortedProducts"
-                            :key="index"
-                            class="bg-white p-6 flex flex-col justify-between border rounded-lg shadow hover:shadow-md transition"
-                        >
+                        <div v-for="(product, index) in sortedProducts" :key="index"
+                            class="bg-white p-6 flex flex-col justify-between border rounded-lg shadow hover:shadow-md transition">
                             <a :href="`/product/${product.id}`" class="block">
                                 <!-- Product Image -->
                                 <div class="relative">
-                                    <img
-                                        :src="url + product.proImage?.link?.href"
-                                        :alt="product.productname"
-                                        class="w-full h-auto object-cover rounded aspect-square"
-                                    />
+                                    <img :src="url + product.proImage?.link?.href" :alt="product.productname"
+                                        class="w-full h-auto object-cover rounded aspect-square" />
                                 </div>
 
                                 <!-- Product Name & Description -->
@@ -80,7 +68,8 @@
                                 <!-- Price -->
                                 <div class="mt-3">
                                     <div class="flex items-center gap-2">
-                                        <p v-if="product.discountasPercentage" class="line-through text-gray-400 text-base">
+                                        <p v-if="product.discountasPercentage"
+                                            class="line-through text-gray-400 text-base">
                                             ${{ product.basePrice }}
                                         </p>
                                         <p v-if="product.discountasPercentage" class="text-red-600 font-bold text-xl">
@@ -105,20 +94,33 @@
                                 <v-rating hover :length="5" :size="20" :model-value="3" active-color="warning" />
 
                                 <!-- Add to Cart Button -->
-                                <div class="flex-grow">
-                                    <v-btn
-                                        v-if="product.availableStatus?.key === 'available' && status[product.id]"
+                                <!-- <div class="flex-grow">
+                                    <v-btn v-if="product.availableStatus?.key === 'available' && status[product.id]"
                                         @click="addtoCart('Carts', product.id, 1, 'testinguserfid')"
-                                        class="w-full custom-btn"
-                                        variant="outlined"
-                                        rounded="0"
-                                        height="44"
-                                    >
+                                        class="w-full custom-btn" variant="outlined" rounded="0" height="44">
                                         Add to Cart
                                     </v-btn>
 
-                                    <v-btn v-else disabled class="w-full custom-btn" variant="outlined" rounded="0" height="44">
+                                    <v-btn v-else disabled class="w-full custom-btn" variant="outlined" rounded="0"
+                                        height="44">
                                         Processing...
+                                    </v-btn>
+                                </div> -->
+                                <div class="flex-grow">
+                                    <v-btn v-if="product.availableStatus?.key === 'available' && status[product.id]"
+                                        @click="addtoCart('Carts', product.id, 1, 'testinguserfid')" class="w-full"
+                                        variant="outlined" rounded="0" height="44">
+                                        Add to Cart
+                                    </v-btn>
+
+                                    <v-btn v-else-if="!status[product.id]" disabled class="w-full custom-btn"
+                                        variant="outlined" rounded="0" height="44">
+                                        Processing...
+                                    </v-btn>
+
+                                    <v-btn v-else class="w-full custom-btn cursor-not-allowed" variant="outlined"
+                                        rounded="0" height="44">
+                                        Pre-order
                                     </v-btn>
                                 </div>
                             </div>
@@ -135,26 +137,32 @@ import { ref, computed, onMounted } from 'vue';
 import { getProductbyCategories } from '@/api/Fetch/fetchProduct';
 import { AddToCart } from '@/api/Cart/AddToCart';
 import { useRoute } from 'vue-router';
+import { getUser } from '@/api/getAccessToken';
+import { useNotifyStore } from '@/stores/cartStore';
 export default {
     setup() {
         const url = 'https://techbox.developimpact.net';
         const status = ref({});
+        const sharedStae = useNotifyStore();
         const categories = [
             { id: 'Macbook', name: 'Macbook' },
             { id: 'gaminggear', name: 'Gaming' },
             { id: 'accessories', name: 'Accessories' },
-            { id: 'generallaptop', name: 'All Laptop' },
+            { id: 'laptop', name: 'All Laptop' },
         ];
         const route = useRoute()
-        console.log(route.params.id)        
+        const user = getUser()
+        console.log(route.params.id)
         const selectedCategory = ref(route.params.id);
         const find = categories.find(c => c.id == route.params.id)
         const display = ref(find.name);
         const sortOption = ref('default');
         const products = ref([]);
+        const loading = ref(false);
 
         // Fetch products based on the category
         const fetchProducts = async () => {
+            loading.value = true;
             try {
                 const response = await getProductbyCategories(selectedCategory.value);
                 products.value = response;
@@ -163,6 +171,8 @@ export default {
                 });
             } catch (error) {
                 console.error('Error fetching products:', error);
+            } finally {
+                loading.value = false;
             }
         };
 
@@ -174,7 +184,8 @@ export default {
             status.value[productid] = false;
 
             try {
-                await AddToCart(cartstatus, productid, qty, userfid);
+                await AddToCart(cartstatus, productid, qty, user);
+                sharedStae.increment();
             } catch (error) {
                 console.error('Error adding to cart:', error.message);
             } finally {
@@ -217,6 +228,7 @@ export default {
             resetCategory,
             addtoCart,
             status,
+            loading,
         };
     },
 };

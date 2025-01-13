@@ -119,14 +119,15 @@ import { ref, toRaw } from 'vue';
 import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import { AddToCart } from '@/api/Cart/AddToCart';
-import { getCartByID } from '@/api/Cart/getCart';
 import { useNotifyStore } from '@/stores/cartStore';
+import { getUser } from '@/api/getAccessToken';
 
 export default {
   data() {
     return {
       length: 2,
       onboarding: 1,
+      user : getUser(),
       reviews: [
         {
           id: 1,
@@ -170,17 +171,15 @@ export default {
 
     onMounted(async () => {
       try {
-        const res = await fetchProductByID(productId);
-        const res2 = await getCartByID('testinguserfid');
-        console.log(res2);
-        
+        const res = await fetchProductByID(productId);        
         data.value = toRaw(res);
         console.log(data.value);
       } catch (error) {
         console.log(error);
       } finally {
-        loading.value = false;
+        status.value = true;
       }
+
     });
 
     return {
@@ -196,7 +195,7 @@ export default {
       console.log(productid + " " + qty + " " + userfid);
       this.status = false;
       try {
-        const check = await AddToCart("Carts",productid, qty, "testinguserfid");
+        const check = await AddToCart("Carts",productid, qty, this.user );
         if(check){
           this.sharedStae.increment();
         }

@@ -7,7 +7,7 @@
                     <a href="/category/Macbook" class="text-sm">Macbook</a>
                     <a href="/category/gaminggear" class="text-sm">Gaming</a>
                     <a href="/category/accessories" class="text-sm">Accessories </a>
-                    <a href="/category/generallaptop" class="text-sm">All Laptop</a>
+                    <a href="/category/laptop" class="text-sm">All Laptop</a>
                     <a href="" class="text-sm">Contact Us</a>
                 
             </div>

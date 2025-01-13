@@ -1,6 +1,6 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen">
-    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-lg">
+    <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-lg">
       <div class="flex justify-between items-center p-6">
         <h1 class="text-2xl font-bold">Your shopping cart</h1>
         <div class="">
@@ -25,7 +25,6 @@
 
       <div class="p-6 flex gap-4 items-center justify-center md:items-start flex-col md:flex-row">
         <v-table class="w-full border-collapse border border-gray-300">
-
           <thead class="bg-gray-200">
             <tr>
               <th><v-btn :disabled="dialog" color="primary" icon="mdi-refresh" text="Start loading"
@@ -36,18 +35,17 @@
               <th class="p-4 text-center">Quantity</th>
               <th class="p-4 text-right">Total Price</th>
             </tr>
+            <th v-if="loading" colspan="6" class="text-center h-2 bg-white">
+              <v-progress-linear v-if="loading" color="cyan" indeterminate></v-progress-linear>
+            </th>
+            <th v-else colspan="6" class="text-center h-2 bg-white"></th>
           </thead>
           <template v-if="loading">
-            <tr>
-              <td colspan="6" class="text-center">
-                <v-progress-linear color="cyan" indeterminate></v-progress-linear>
-              </td>
-            </tr>
           </template>
-          <template v-else-if="!loading && cartItems.length == 0">
+          <template v-if="!loading && cartItems.length == 0">
             <tr>
               <td colspan="6" class="text-center p-4">
-              Your Cart is empty
+                Your Cart is empty
 
                 <v-btn @click="goHome" color="primary" size="35" icon="mdi-store-plus"></v-btn>
               </td>
@@ -60,12 +58,12 @@
               </td>
               <td class="p-4">
                 <img :src="url + item.productDetails.proImage.link.href" alt="Product Image"
-                    class="w-16 h-16 object-cover mr-4" />
+                  class="w-16 h-16 object-cover mr-4" />
               </td>
               <td class="p-4">
                 <div class="flex flex-col">
-                    <h2 class="font-semibold text-lg line-clamp-2">{{ item.productDetails.productname }}</h2>
-                    <p class="text-sm text-gray-500 line-clamp-2">{{ item.productDetails.proDescription }}</p>
+                  <h2 class="font-semibold text-lg line-clamp-2">{{ item.productDetails.productname }}</h2>
+                  <p class="text-sm text-gray-500 line-clamp-2">{{ item.productDetails.proDescription }}</p>
                 </div>
               </td>
               <td class="p-4">
@@ -134,17 +132,17 @@
       <v-card>
         <v-toolbar>
           <v-btn icon="mdi-close" @click="closeDialog1"></v-btn>
-
           <v-toolbar-title>Checkout Process</v-toolbar-title>
-
           <v-spacer></v-spacer>
-
           <v-toolbar-items>
             <v-btn text="Close" variant="text" @click="closeDialog1"></v-btn>
           </v-toolbar-items>
         </v-toolbar>
-
-        <component v-if="sharedState.QRpayComponent" :is="sharedState.QRpayComponent" :amountInKHR="GrandTotal"
+        <div v-if="fillAddress" class="flex flex-col items-center gap-4 justify-center mt-4">
+          <Address/>
+          <v-btn @click="fillAddress = false" color="primary" text="Pay now" class="text-left" />
+        </div>
+        <component v-else v-if="sharedState.QRpayComponent" :is="sharedState.QRpayComponent" :amountInKHR="GrandTotal"
           :CouponID="check.id" :CouponQTY="check.qty" :itemsID="itemsID" />
       </v-card>
     </v-dialog>
@@ -162,11 +160,14 @@ import { ApplyCoupon } from '@/api/payway/BakongPay';
 import { DeleteItemByID } from '@/api/Cart/DeleteItem';
 import { formatPrice } from '@/util';
 import router from '@/router';
+import { getUser } from '@/api/getAccessToken';
+import Address from '@/components/resource/Address.vue';
 
 export default {
   data() {
     return {
       cartItems: [],
+      user: getUser(),
       url: 'https://techbox.developimpact.net/',
       QTYs: [],
       Price: [],
@@ -180,6 +181,7 @@ export default {
       check: '',
       dialog: false,
       dialog1: false,
+      fillAddress: true,
       placeholder: 'Apply Coupon',
       isDisabled: false,
       discountPercentage: 0,
@@ -187,12 +189,12 @@ export default {
     };
   },
   components: {
-    QRpay
+    QRpay,
+    Address
   },
   watch: {
     async dialog(val) {
       console.log(val);
-
       this.refresh(val)
     },
 
@@ -210,7 +212,9 @@ export default {
     },
     Total() {
       this.visible = true;
+      console.log(this.fillAddress);
       return this.subtotal;
+
     },
     sharedState() {
       return sharedState;
@@ -230,7 +234,7 @@ export default {
     async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
       this.loading = true;
       try {
-        const check = await AddToCart(cartStatus, productid, qty, userfid);
+        const check = await AddToCart(cartStatus, productid, qty, this.user);
         if (check) {
           this.QTYs[index] += 1;
           this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
@@ -246,7 +250,7 @@ export default {
     async Decrease(productid, index) {
       this.loading = true;
       try {
-        const check = await DecreaseQTY(productid);
+        const check = await DecreaseQTY(productid, this.user);
         if (check) {
           this.QTYs[index] -= 1;
           this.Price[index] = this.cartItems[index].productDetails.basePrice * this.QTYs[index];
@@ -298,10 +302,11 @@ export default {
     closeDialog1() {
       this.dialog1 = false;
       sharedState.QRpayComponent = null;
+      this.fillAddress = true;
     },
     async Initial() {
       try {
-        const rawData = await getCart('testinguserfid'); // Fetch the cart data
+        const rawData = await getCart(this.user,"Carts"); // Fetch the cart data
         this.cartItems = toRaw(rawData);
         this.loading = false;
         this.QTYs = this.cartItems.map(item => item.qty);
@@ -313,7 +318,7 @@ export default {
 
     },
     async DeleteItems(productId) {
-      this.dialog = true
+      this.loading = true
       try {
         const check = await DeleteItemByID(productId)
         this.refresh();
@@ -322,7 +327,9 @@ export default {
           await this.Initial()
         }
       } catch (error) {
-
+        console.error('Error deleting item:', error);
+      } finally {
+        this.loading = false
       }
     }
   },

@@ -41,6 +41,7 @@
 <script>
 import { AddToCart, DecreaseQTY } from '@/api/Cart/AddToCart';
 import { getCart } from '@/api/Cart/getCart';
+import { getUser } from '@/api/getAccessToken';
 import { ref, toRaw } from 'vue';
 
 export default {
@@ -50,6 +51,7 @@ export default {
       url: 'https://techbox.developimpact.net/',
       QTYs: [],
       laoding: ref(true),
+      user : getUser(),
     };
   },
   computed: {
@@ -63,7 +65,9 @@ export default {
     async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
       this.laoding = true;
       try {
-        const check = await AddToCart(cartStatus, productid, qty, userfid);
+        console.log(this.user);
+        
+        const check = await AddToCart(cartStatus, productid, qty, this.user);
         if(check){
           this.QTYs[index] += 1;
         }
@@ -77,7 +81,7 @@ export default {
     async Decrease(cartStatus, productid, qty, userfid, index) {
       this.laoding = true;
       try {
-        const check = await DecreaseQTY(productid);
+        const check = await DecreaseQTY(productid,this.user);
         if(check){
           this.QTYs[index] -= 1;
         }     
@@ -91,7 +95,8 @@ export default {
   },
   async mounted() {
     try {
-      const rawData = await getCart('testinguserfid'); // Fetch the cart data
+
+      const rawData = await getCart(this.user,"Carts"); // Fetch the cart data
       this.cartItems = toRaw(rawData);
       console.log("Cart items:" + this.cartItems.length)
       this.laoding = false;

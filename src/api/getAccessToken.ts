@@ -31,5 +31,8 @@ export async function getAccessToken(): Promise<string | undefined> {
     }
   }
 
-  
+  export function getUser(){
+    const user_token = localStorage.getItem('authToken');
+    return user_token;
+  }
   

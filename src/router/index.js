@@ -9,6 +9,7 @@ import MainLayout from '@/components/MainLayout.vue';
 import Content from '@/views/Content.vue';
 import Product_detail from '@/views/Product_detail.vue';
 import CategoryDetail from '@/views/CategoryDetail.vue';
+import History from '@/views/History.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -42,7 +43,13 @@ const router = createRouter({
           path: 'category/:id',
           name: 'categoryDetails',
           component: CategoryDetail,
+          
         },
+        {
+          path: 'history',
+          name: 'history',
+          component: History, 
+        }
         
       ]
     },
@@ -73,7 +80,7 @@ const router = createRouter({
     {
       path: '/test',
       name: 'test',
-      component: AboutView,
+      component: History,
     },
   ],
 })

@@ -4,7 +4,7 @@ import Footer from './Footer.vue';
 </script>
 
 <template>
-    <div class="bg-gray-50">
+    <div>
         <MyNav/>
             <router-view/>
         <Footer/>

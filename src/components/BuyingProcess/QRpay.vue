@@ -51,6 +51,7 @@
   import router from "@/router";
   import { getBakongQR, getCurrentDateTime, sendTelegramMessage, updateCouponQTY } from "@/api/payway/BakongPay";
   import { ref } from "vue";
+import { getUser } from "@/api/getAccessToken";
   
   export default {
     data() {
@@ -120,8 +121,9 @@
             console.log(res);
   
             const date = getCurrentDateTime();
-            await sendTelegramMessage(date + "- Order successfully Purchase by testing@user: " + this.amountInKHR + "$. " +
-              "From account: " + res.data.data.fromAccountId + " to " + res.data.data.toAccountId + " transactionRef: " + res.data.data.externalRef + "."
+            const userEmail = getUser();
+            await sendTelegramMessage(date + "- Order successfully Purchase by" + userEmail+": $ " + this.amountInKHR + ". " +
+              "User: " + res.data.data.fromAccountId + " to " + res.data.data.toAccountId + " transactionRef: " + res.data.data.externalRef + "."
             );
   
             await updateCouponQTY(this.CouponID, this.CouponQTY);
