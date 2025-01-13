@@ -39,7 +39,7 @@ function encryptPasswordSync(password: string): string {
   return hashedPassword;
 }
 
-function postRecord(accessToken: any, email: string, password: string, lastname: string, firstname: string, phoneNumber: string) {
+async function postRecord(accessToken: any, email: string, password: string, lastname: string, firstname: string, phoneNumber: string): Promise<boolean> {
   var encryptPass = encryptPasswordSync(password)
 
   const jsonObject = {
@@ -50,7 +50,7 @@ function postRecord(accessToken: any, email: string, password: string, lastname:
   };
   const url = 'https://techbox.developimpact.net/o/c/users/';
 
-  fetch(url, {
+  const res = await fetch(url, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -58,12 +58,12 @@ function postRecord(accessToken: any, email: string, password: string, lastname:
     },
     body: JSON.stringify(jsonObject)
   })
-    .then(url => {
-      console.log("Record created successfully!", url)
-    })
-    .catch(error => {
-      console.log("Error creating record:", url);
-    });
+  if (res.ok) {
+    return true;
+  } else {
+    return false;
+  }
+
 }
 
 export async function submitForm(email: string, password: string, lastname: string, firstname: string, phoneNumber: string) {
@@ -84,7 +84,7 @@ export async function submitForm(email: string, password: string, lastname: stri
   });
   if (response.ok) {
     const data = await response.json();
-    postRecord(data.access_token, email, password, lastname, firstname, phoneNumber);
+    return postRecord(data.access_token, email, password, lastname, firstname, phoneNumber);
   } else {
     console.log("Error");
   }

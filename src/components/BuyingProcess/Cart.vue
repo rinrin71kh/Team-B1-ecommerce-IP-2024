@@ -1,8 +1,7 @@
 <template>
-  <div class="max-w-sm mx-auto p-4 bg-white shadow-lg absolute z-10 right-[100px] max-md:right-4 max-md:w-[92%] top-16 max-md:top-20 w-full max-md:pl-4">
-    <div v-if="laoding" class="flex relative justify-center items-center w-full">
+    <div v-if="laoding" class="flex justify-center items-center w-full">
       <!-- Loading -->
-      <!-- <v-progress-linear color="blue-darken-3" model-value="20" indeterminate></v-progress-linear> -->
+      <v-progress-linear color="cyan" indeterminate></v-progress-linear>
     </div>
     <div v-if="cartItems.length != 0" v-for="(item, index) in cartItems" :key="index" class="flex items-center mb-4">
       <img :src="url + item.productDetails?.proImage?.link.href" alt="Product Image"
@@ -36,33 +35,14 @@
         </button>
       </div>
     </div>
-    <div v-else-if="cartItems.length == 0 && !laoding">Empty</div>
-    <!-- <div class="pt-4">
-      <div class="flex justify-between text-lg font-semibold">
-        <span>Subtotal</span>
-        <span>$ {{ subtotal }}</span>
-      </div>
-      <div class="flex justify-between text-lg font-semibold">
-        <span>Shipping</span>
-        <span>Free</span>
-      </div>
-      <div class="flex justify-between text-lg font-bold border-t py-4">
-        <span>Total</span>
-        <span>$ {{ subtotal }}</span>
-      </div>
-    </div> -->
-    <div class="mt-4 flex justify-center gap-3">
-      <a href="/checkout" class="px-4 py-2 bg-primary w-full hover:bg-gray-600 text-center text-white">View
-        Cart</a>
-      <a class="px-4 py-2 bg-primary w-full text-white hover:bg-green-600 text-center">History</a>
-    </div>
-  </div>
+    <div v-else-if="cartItems.length == 0 && !laoding">Your Cart is empty</div>
 </template>
 
 <script>
 import { AddToCart, DecreaseQTY } from '@/api/Cart/AddToCart';
 import { getCart } from '@/api/Cart/getCart';
-import { onMounted, ref, toRaw } from 'vue';
+import { getUser } from '@/api/getAccessToken';
+import { ref, toRaw } from 'vue';
 
 export default {
   data() {
@@ -71,6 +51,7 @@ export default {
       url: 'https://techbox.developimpact.net/',
       QTYs: [],
       laoding: ref(true),
+      user : getUser(),
     };
   },
   computed: {
@@ -84,7 +65,9 @@ export default {
     async IncreaseQTY(cartStatus, productid, qty, userfid, index) {
       this.laoding = true;
       try {
-        const check = await AddToCart(cartStatus, productid, qty, userfid);
+        console.log(this.user);
+        
+        const check = await AddToCart(cartStatus, productid, qty, this.user);
         if(check){
           this.QTYs[index] += 1;
         }
@@ -98,7 +81,7 @@ export default {
     async Decrease(cartStatus, productid, qty, userfid, index) {
       this.laoding = true;
       try {
-        const check = await DecreaseQTY(productid);
+        const check = await DecreaseQTY(productid,this.user);
         if(check){
           this.QTYs[index] -= 1;
         }     
@@ -112,7 +95,8 @@ export default {
   },
   async mounted() {
     try {
-      const rawData = await getCart('testinguserfid'); // Fetch the cart data
+
+      const rawData = await getCart(this.user,"Carts"); // Fetch the cart data
       this.cartItems = toRaw(rawData);
       console.log("Cart items:" + this.cartItems.length)
       this.laoding = false;

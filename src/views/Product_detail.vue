@@ -56,11 +56,36 @@
         </div>
 
         <!-- Add to Cart -->
-        <div class="flex items-center space-x-4">
-          <button @click="IncreaseQTY()"
-            class="bg-blue-600 text-white px-6 py-2 rounded-lg border border-gray-600 hover:bg-blue-700">
+        <div class="flex-grow">
+          <v-btn
+            v-if="data.availableStatus?.key === 'available' && status"
+            @click="IncreaseQTY('Carts', data.id, 1, 'testinguserfid')"
+            variant="outlined"
+            rounded="0"
+            height="44"
+          >
             Add to Cart
-          </button>
+          </v-btn>
+
+          <v-btn
+            v-else-if="!status"
+            disabled
+            variant="outlined"
+            rounded="0"
+            height="44"
+          >
+            Processing...
+          </v-btn>
+
+          <v-btn
+            v-else
+            class="w-full custom-btn cursor-not-allowed"
+            variant="outlined"
+            rounded="0"
+            height="44"
+          >
+            Pre-order
+          </v-btn>
         </div>
       </div>
     </div>
@@ -94,12 +119,15 @@ import { ref, toRaw } from 'vue';
 import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import { AddToCart } from '@/api/Cart/AddToCart';
+import { useNotifyStore } from '@/stores/cartStore';
+import { getUser } from '@/api/getAccessToken';
 
 export default {
   data() {
     return {
       length: 2,
       onboarding: 1,
+      user : getUser(),
       reviews: [
         {
           id: 1,
@@ -137,39 +165,44 @@ export default {
     const route = useRoute();
     const productId = route.params.id;
     const data = ref(null);
-    const loading = ref(true);
+    const status = ref(true); 
+    const sharedStae = useNotifyStore();
     const url = 'https://techbox.developimpact.net';
 
     onMounted(async () => {
       try {
-        const res = await fetchProductByID(productId);
+        const res = await fetchProductByID(productId);        
         data.value = toRaw(res);
         console.log(data.value);
       } catch (error) {
         console.log(error);
       } finally {
-        loading.value = false;
+        status.value = true;
       }
+
     });
 
     return {
       productId,
       data,
-      loading,
-      url
+      url,
+      status,
+      sharedStae
     }
   },
   methods: {
-    async IncreaseQTY() {
-      this.loading = true;
-      console.log(this.data.value.id);
+    async IncreaseQTY(cartStatus, productid, qty, userfid) {
+      console.log(productid + " " + qty + " " + userfid);
+      this.status = false;
       try {
-        const check = await AddToCart("Carts", this.data.value.id, this.data.value.qty, "testinguserfid");
-        console.log(check);
+        const check = await AddToCart("Carts",productid, qty, this.user );
+        if(check){
+          this.sharedStae.increment();
+        }
       } catch (error) {
         console.error('Error in IncreaseQTY:', error);
       } finally {
-        this.loading = false;
+        this.status = true;
       }
     },
     next() {

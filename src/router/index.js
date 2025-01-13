@@ -1,17 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import CartView from '@/components/BuyingProcess/CartView.vue';
-import Login from '@/components/auth/login/login.vue';
-import Register from '@/components/auth/register/register.vue';
+import CartView from '@/views/CartView.vue';
+import login from '@/views/auth/login/login.vue'; 
+import register from '@/views/auth/register/register.vue';
+import Logout from '@/views/Logout.vue';
 import { AuthService } from '@/auth';
 import AboutView from '../views/AboutView.vue';
-import Checkout from '@/components/BuyingProcess/Checkout.vue';
 import MainLayout from '@/components/MainLayout.vue';
-import Content from '@/components/resource/Content.vue';
-import Product_detail from '@/components/resource/Product_detail.vue';
-import SpecialOffer from '@/components/resource/SpecialOffer.vue';
-import Product from '@/components/resource/Product.vue';
-import Component from '@/components/resource/Component.vue';
+import Content from '@/views/Content.vue';
+import Product_detail from '@/views/Product_detail.vue';
+import CategoryDetail from '@/views/CategoryDetail.vue';
+import History from '@/views/History.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -40,29 +38,49 @@ const router = createRouter({
           path: 'product/:id',
           name: 'productDetails',
           component: Product_detail,
+        },
+        {
+          path: 'category/:id',
+          name: 'categoryDetails',
+          component: CategoryDetail,
+          
+        },
+        {
+          path: 'history',
+          name: 'history',
+          component: History, 
         }
+        
       ]
     },
     {
       path: '/login',
       name: 'login',
-      component: Login,
-      // meta: {
-      //   requiresGuest: true,
-      // }
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: Register,
+      component: login,
       meta: {
         requiresGuest: true,
       }
     },
     {
+      path: '/register',
+      name: 'register',
+      component: register,
+      meta: {
+        requiresGuest: true,
+      }
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: Logout,
+      meta: {
+        requiresAuth: true,
+      }
+    },
+    {
       path: '/test',
       name: 'test',
-      component: Product_detail,
+      component: History,
     },
   ],
 })

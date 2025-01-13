@@ -18,19 +18,19 @@
             </div>
             <img :src="url + product.proImage?.link.href" :alt="product.proImage?.link.name"
               class="h-42 w-full object-contain my-3" />
-            <h3 class="text-xl font-semibold text-gray-800 mb-1 ">
+            <h3 class="text-xl font-semibold text-gray-800 mb-1 line-clamp-2">
               {{ product.productname }}
             </h3>
-            <p class="text-gray-500 text-sm mb-3">
+            <p class="text-gray-500 text-sm mb-3 line-clamp-2">
               {{ product.proDescription }}
             </p>
           </div>
             <div class="flex gap-2 md:gap-4 py-4 justify-start items-center">
               <p class="text-gray-400 line-through text-lg ">
-                ${{ product.basePrice }}
+                ${{ formatPrice(product.basePrice) }}
               </p>
-              <p class="text-red-500 font-semibold text-2xl ">
-                ${{ product.basePrice - (product.basePrice * product.discountasPercentage / 100) }}
+              <p class="text-red-500 font-semibold text-3xl ">
+                ${{ formatPrice(Math.round(product.basePrice - (product.basePrice * product.discountasPercentage / 100))) }}
               </p>
             </div>
         </a>
@@ -41,6 +41,7 @@
 
 <script>
 import { getProductbyCategories } from '@/api/Fetch/fetchProduct';
+import { formatPrice } from '@/util';
 import { onMounted, ref } from 'vue';
 
 export default {
@@ -59,6 +60,9 @@ export default {
       products,
       url
     }
+  },
+  methods:{
+    formatPrice
   }
 };
 </script>

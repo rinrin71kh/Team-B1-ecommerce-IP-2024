@@ -9,13 +9,10 @@ export async function AddToCart(cartstatus: string, productid: string, qty: numb
         "qty": qty,
         "userfid": userfid
     };
-
     const url = 'https://techbox.developimpact.net/o/c/carts/';
-    const getExistingData = await getExistingDatas(productid);
+    const getExistingData = await getExistingDatas(productid,userfid);
     //If dont have perfom if
-    //if have check status if it is = carts perfom increase
-    console.log("ExistingData" + getExistingData);  
-    
+    //if have check status if it is = carts perfom increase    
     //If not, add new data to db. Else, update the existing data.
     if (!getExistingData.items[0]) {
         const checkAdd = await fetch(url, {
@@ -26,8 +23,11 @@ export async function AddToCart(cartstatus: string, productid: string, qty: numb
             },
             body: JSON.stringify(jsonObject)
         })
-        if(checkAdd.ok){
+        if(checkAdd.ok){     
+            console.log('Data added successfully');
             return true
+        }else{
+            console.warn('Failed to add data');
         }
     } else {
 
@@ -47,6 +47,7 @@ export async function AddToCart(cartstatus: string, productid: string, qty: numb
         })
 
         if(check.ok){
+            console.log('Data increase successfully'); 
             return true
         }
             
@@ -54,9 +55,9 @@ export async function AddToCart(cartstatus: string, productid: string, qty: numb
 }
 
 //Get Exisiting Records
-async function getExistingDatas(productid: string) {
+async function getExistingDatas(productid: string,userfid: string) {
     const accessToken = await getAccessToken()
-    const urlGet = `https://techbox.developimpact.net/o/c/carts/?filter=productid%20eq%20%20%27${productid}%27%20and%20cartstatus%20eq%20%27Carts%27`
+    const urlGet = `https://techbox.developimpact.net/o/c/carts/?filter=productid%20eq%20%20%27${productid}%27%20and%20cartstatus%20eq%20%27Carts%27%20and%20userfid%20eq%20%27${userfid}%27`
     const response = await fetch(urlGet, {
         method: 'GET',
         headers: {
@@ -73,13 +74,13 @@ async function getExistingDatas(productid: string) {
 }
 
 //Decrease QTY
-export async function DecreaseQTY(productid: string) : Promise<boolean> {
+export async function DecreaseQTY(productid: string,userfid:string) : Promise<boolean> {
     
     const accessToken = await getAccessToken()
 
     const url = 'https://techbox.developimpact.net/o/c/carts/';
     
-    const getData = await getExistingDatas(productid);
+    const getData = await getExistingDatas(productid,userfid);
     
     if (!getData?.items[0]) {
         console.warn('Failed to retrieve data');

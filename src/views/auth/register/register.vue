@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen w-screen flex items-center justify-center bg-cover bg-center"
-    style="background-image: url('/Signin.jpg');">
+    style="background-image: url('/images/Signin.jpg');">
     <div class="bg-white shadow-lg p-8 w-[450px] kantumruy-pro-regular">
       <div class="text-left mb-4">
         <span class="focus:outline-none cursor-pointer text-xl" @click.prevent="$router.push('/login')">
@@ -69,6 +69,7 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import { submitForm } from '@/api/login/register';
+import router from '@/router';
 
 export default defineComponent({
   name: 'Login',
@@ -87,6 +88,14 @@ export default defineComponent({
       try {
         if (password.value == repassword.value) {
           const user = await submitForm(email.value, password.value, lastName.value, firstName.value, phoneNumber.value)
+          if (user){
+            console.log(user)
+            errorMessage.value = 'Register successfully.';
+            router.push('/login')
+          } else {
+            errorMessage.value = 'Invalid email or password.';
+          }
+          
         } else {
           errorMessage.value = 'Passwords do not match.';
         }

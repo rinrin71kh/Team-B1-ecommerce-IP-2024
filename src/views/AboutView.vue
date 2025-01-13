@@ -1,39 +1,85 @@
 <template>
-  <div>
-    <div v-for="(item, index) in items" :key="item.id">
-      <!-- Pass the item and index to the child -->
-      <HomeView 
-        :item="item" 
-        :index="index" 
-        @update="updateItem"
-      />
-    </div>
-  </div>
+
+  <v-card prepend-icon="mdi-map-marker" title="Deliver to">
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="12" md="4" sm="6">
+          <v-text-field label="Full Name*" required></v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="4" sm="6">
+          <v-text-field label="Email*" required></v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="4" sm="6">
+          <v-text-field hint="Telegram connected is better" label="Phone Number*" required></v-text-field>
+        </v-col>
+
+        <v-col cols="12" sm="6">
+          <v-autocomplete
+            :items="provinces"
+            label="Choose City" auto-select-first multiple></v-autocomplete>
+        </v-col>
+
+        <v-col cols="12" md="4" sm="6">
+          <v-text-field hint="e.g. #712B St.25BT Sangkat Beoung Tum Pun Khan Mean Chey Phnom Penh" label="Full Address"
+            type="text" persistent-hint required></v-text-field>
+        </v-col>
+
+      </v-row>
+
+      <small class="text-caption text-medium-emphasis">*By filling this you are agreed to share your personal information.</small>
+    </v-card-text>
+
+    <v-divider></v-divider>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+
+      <v-btn text="Close" variant="plain" @click="dialog = false"></v-btn>
+
+      <v-btn color="primary" text="Save" variant="tonal" @click="dialog = false"></v-btn>
+    </v-card-actions>
+  </v-card>
+
 </template>
 
 <script>
-import HomeView from './HomeView.vue';
 export default {
-  components: {
-    HomeView,
-  },
-  data() {
+  setup() {
+    const provinces = [
+      "Phnom Penh",
+      "Kandal",
+      "Banteay Meanchey",
+      "Battambang",
+      "Kampong Cham",
+      "Kampong Chhnang",
+      "Kampong Speu",
+      "Kampong Thom",
+      "Kampot",
+      "Kep",
+      "Koh Kong",
+      "Kratie",
+      "Mondulkiri",
+      "Oddar Meanchey",
+      "Pailin",
+      "Preah Sihanouk",
+      "Preah Vihear",
+      "Prey Veng",
+      "Pursat",
+      "Ratanakiri",
+      "Siem Reap",
+      "Stung Treng",
+      "Svay Rieng",
+      "Takeo",
+      "Tbong Khmum"
+    ];
+
     return {
-      items: [
-        { id: 1, value: false },
-        { id: 2, value: false },
-      ],
+      provinces,
+      khqrString,
+      sourceInfo,
     };
-  },
-  methods: {
-    updateItem(index, newValue) {
-      // Directly update the item's value while ensuring reactivity
-      this.items[index].value = newValue;
-      // OR create a new array to trigger reactivity in some edge cases
-      // this.items = this.items.map((item, i) =>
-      //   i === index ? { ...item, value: newValue } : item
-      // );
-    },
-  },
+  }
 };
 </script>

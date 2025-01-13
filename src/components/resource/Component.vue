@@ -16,11 +16,9 @@
           <v-tabs-window-item value="Macbook">
             <Product :category="tab" />
           </v-tabs-window-item>
-
           <v-tabs-window-item value="gaminggear">
             <Product :category="tab" />
           </v-tabs-window-item>
-
           <v-tabs-window-item value="accessories">
             <Product :category="tab" />
           </v-tabs-window-item>
@@ -30,11 +28,6 @@
         </v-tabs-window>
       </v-card-text>
     </v-card>
-
-    <!-- Product Grid -->
-    <div>
-      <router-view></router-view>
-    </div>
   </div>
 </template>
 
