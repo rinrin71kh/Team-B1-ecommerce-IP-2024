@@ -19,3 +19,20 @@ export const useNotifyStore = defineStore('NotifyStore', {
     },
   },
 });
+
+// store/index.js
+export const receipt = {
+  state: {
+    selectedOrder: null,
+  },
+  mutations: {
+    setSelectedOrder(state, order) {
+      state.selectedOrder = order;
+    },
+  },
+  getters: {
+    getSelectedOrder(state) {
+      return state.selectedOrder;
+    },
+  },
+};

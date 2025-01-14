@@ -52,6 +52,7 @@
   import { getBakongQR, getCurrentDateTime, sendTelegramMessage, updateCouponQTY } from "@/api/payway/BakongPay";
   import { ref } from "vue";
 import { getUser } from "@/api/getAccessToken";
+import { checkout } from "@/api/checkout/checkout";
   
   export default {
     data() {
@@ -83,7 +84,11 @@ import { getUser } from "@/api/getAccessToken";
       CouponQTY: {
         type: Number,
         required: true,
-      }
+      },
+      shippingAdd: {
+        type: String,
+        required: true,
+      },
     },
     methods: {
       async generateQRCode() {
@@ -96,6 +101,7 @@ import { getUser } from "@/api/getAccessToken";
         });
   
         this.md5 = result.md5;
+        console.log(this.itemsID)
         this.checkTransactionStatus();
       },
       async checkTransactionStatus() {
@@ -117,6 +123,8 @@ import { getUser } from "@/api/getAccessToken";
           if (res.data.responseMessage === "Success") {
             this.success = true;
             this.response = res.data;
+            const user = getUser()
+            checkout(res.data.responseMessage,this.itemsID,"#77B St.252B Beoung tum pun Mean Chey PhnomPenh","Store accepted",this.amountInKHR,user);
             this.itemsID.map((item) => ChangeBoughtStatus(item));
             console.log(res);
   

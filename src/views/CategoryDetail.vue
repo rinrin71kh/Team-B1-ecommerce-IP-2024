@@ -45,7 +45,7 @@
                     <v-progress-linear color="cyan" indeterminate></v-progress-linear>
                 </div>
                 <div v-else class="md:px-16">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                         <div v-for="(product, index) in sortedProducts" :key="index"
                             class="bg-white p-6 flex flex-col justify-between border rounded-lg shadow hover:shadow-md transition">
                             <a :href="`/product/${product.id}`" class="block">
@@ -93,19 +93,6 @@
                                 <!-- Rating -->
                                 <v-rating hover :length="5" :size="20" :model-value="3" active-color="warning" />
 
-                                <!-- Add to Cart Button -->
-                                <!-- <div class="flex-grow">
-                                    <v-btn v-if="product.availableStatus?.key === 'available' && status[product.id]"
-                                        @click="addtoCart('Carts', product.id, 1, 'testinguserfid')"
-                                        class="w-full custom-btn" variant="outlined" rounded="0" height="44">
-                                        Add to Cart
-                                    </v-btn>
-
-                                    <v-btn v-else disabled class="w-full custom-btn" variant="outlined" rounded="0"
-                                        height="44">
-                                        Processing...
-                                    </v-btn>
-                                </div> -->
                                 <div class="flex-grow">
                                     <v-btn v-if="product.availableStatus?.key === 'available' && status[product.id]"
                                         @click="addtoCart('Carts', product.id, 1, 'testinguserfid')" class="w-full"
