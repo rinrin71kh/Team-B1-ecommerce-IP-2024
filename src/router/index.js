@@ -11,6 +11,7 @@ import Product_detail from '@/views/Product_detail.vue';
 import CategoryDetail from '@/views/CategoryDetail.vue';
 import History from '@/views/History.vue';
 import OrderHistory from '@/views/OrderHistory.vue';
+import Receipt from '@/components/resource/Receipt.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -45,11 +46,6 @@ const router = createRouter({
           name: 'categoryDetails',
           component: CategoryDetail,
           
-        },
-        {
-          path: 'history',
-          name: 'history',
-          component: History, 
         },
         {
           path: 'order-history',
@@ -87,9 +83,9 @@ const router = createRouter({
       }
     },
     {
-      path: '/test',
-      name: 'test',
-      component: History,
+      path: '/receipt',
+      name: 'receipt',
+      component: Receipt,
     },
   ],
 })

@@ -139,7 +139,7 @@
           </v-toolbar-items>
         </v-toolbar>
         <div v-if="fillAddress" class="flex flex-col items-center gap-4 justify-center mt-4">
-          <Address/>
+          <Address v-model="address"/>
           <v-btn @click="fillAddress = false" color="primary" text="Pay now" class="text-left" />
         </div>
         <component v-else v-if="sharedState.QRpayComponent" :is="sharedState.QRpayComponent" :amountInKHR="GrandTotal"
@@ -179,6 +179,7 @@ export default {
       text: '',
       Btn: '',
       check: '',
+      address: '',
       dialog: false,
       dialog1: false,
       fillAddress: true,
@@ -335,6 +336,8 @@ export default {
   },
   async mounted() {
     await this.Initial()
+    console.log(this.address);
+    
   }
 }
 </script>

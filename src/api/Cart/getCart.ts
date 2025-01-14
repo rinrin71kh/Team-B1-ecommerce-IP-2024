@@ -36,26 +36,29 @@ export async function getCart(userid: string,cartStatus:string): Promise<any[]> 
     // Fetch product details for each item in the cart
     const combinedData = await Promise.all(
       cartData.items.map(async (item: any) => {
-        const productUrl = `https://techbox.developimpact.net/o/c/products/${item.productid}`;
-        const productResponse = await fetch(productUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const productData = await productResponse.json();
-        return { ...item, productDetails: productData };
+        return getProductDataInCart(item,item.productid,accessToken)
       })
     );
 
-    // console.log("Combined Data:", combinedData);
     return combinedData;
   } catch (error) {
     console.error("Error fetching cart or product data:", error);
     return [];
   }
+}
+
+export async function getProductDataInCart(cartData:any,id:string,accessToken:string) {
+  const productUrl = `https://techbox.developimpact.net/o/c/products/${id}`;
+  const productResponse = await fetch(productUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  const productData = await productResponse.json();
+
+  return {...cartData,productDetails: productData}
 }
 
 export async function getCartByID(userid: string, id:Number): Promise<any[]> {
